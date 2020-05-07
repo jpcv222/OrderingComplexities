@@ -42,7 +42,7 @@ public class manager_index {
     }
 
     public void readCSVFile() {
-        String response = FileManage.readCSVFile(file.getRuta());
+        String response = FileManage.readFile(file.getRuta());
         resultUpload(response, "usuarios");
 
     }

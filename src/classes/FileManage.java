@@ -5,9 +5,7 @@
  */
 package classes;
 
-import com.opencsv.CSVReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import javax.swing.JFileChooser;
 
 /**
@@ -16,7 +14,7 @@ import javax.swing.JFileChooser;
  */
 public class FileManage {
 
-    String  ruta;
+    String ruta;
 
     public FileManage() {
         ruta = null;
@@ -48,35 +46,55 @@ public class FileManage {
         if (ruta_alt != null) {
             response = ruta_alt;
         } else {
-           response = "Archivo CSV, ruta errónea.";
+            response = "Archivo TXT, ruta errónea.";
             //logs.escribirErrorLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Archivo CSV, ruta errónea.");
         }
         return response;
     }
 
-    public static String readCSVFile(String url_file) {
+    public static String readFile(String url_file) {
         String response = "error.unknow";
-        String archCSV = url_file;
+        String archTXT = url_file;
+
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
         try {
-            CSVReader csvReader = new CSVReader(new FileReader(archCSV));
-            String[] fila = null;
-            while ((fila = csvReader.readNext()) != null) {
-                System.out.println(fila[0]
-                        + " | " + fila[1]
-                        + " |  " + fila[2]);
+            // Apertura del fichero y creacion de BufferedReader para poder
+            // hacer una lectura comoda (disponer del metodo readLine()).
+            archivo = new File(archTXT);
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+
+            // Lectura del fichero
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                System.out.println(linea);
             }
             response = "success";
         } catch (IOException ex) {
             //logs.escribirExceptionLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// " + ex.getMessage() + " " + ex.toString());
         } catch (NoClassDefFoundError ex) {
-            //logs.escribirExceptionLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// " + ex.getMessage() + " " + ex.toString());
+            System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName() + "// " + ex.getMessage() + " " + ex.toString());
             response = "error.noclassdeffounderror";
         } catch (NullPointerException ex) {
             //logs.escribirExceptionLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// " + ex.getMessage() + " " + ex.toString());
             response = "error.nullpointerexception";
+        } finally {
+            // En el finally cerramos el fichero, para asegurarnos
+            // que se cierra tanto si todo va bien como si salta 
+            // una excepcion.
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
         }
-            return response;
-        
+
+        return response;
 
     }
 
