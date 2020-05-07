@@ -5,6 +5,8 @@
  */
 package orderingcomplexities;
 
+import views.Index;
+
 /**
  *
  * @author jpcv2
@@ -16,6 +18,10 @@ public class OrderingComplexities {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        Index index = new Index();
+        
+        index.setVisible(true);
     }
     
 }

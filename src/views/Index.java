@@ -6,6 +6,7 @@
 package views;
 
 import java.awt.Color;
+import managers.manager_index;
 
 /**
  *
@@ -18,9 +19,10 @@ public class Index extends javax.swing.JFrame {
      */
     
         Color item_bottom_exited, item_bottom_entered;
-        //public manager_index manager;
-    public Index() {
+        public manager_index manager;
+        public Index() {
         initComponents();
+         manager = new manager_index(this);
 
 
         item_bottom_exited = new Color(240, 240, 240);
