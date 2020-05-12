@@ -7,6 +7,7 @@ package managers;
 
 import classes.FileManage;
 import components.Dialogs;
+import java.util.ArrayList;
 import views.Index;
 
 /**
@@ -41,18 +42,24 @@ public class manager_index {
 
     }
 
-    public void readCSVFile() {
-        String response = FileManage.readFile(file.getRuta());
+    public void readTXTFile() {
+        ArrayList <Object> response = FileManage.readFile(file.getRuta());
         resultUpload(response, "usuarios");
-
     }
     
-     public void resultUpload(String response, String type) {
+    public void loadData(ArrayList <String> data){
+        for (int i = 0; i <data.size(); i++) {
+            System.out.println("Líena: "+ i + " Dato: "+ data.get(i));
+        }
+    }
+    
+     public void resultUpload(ArrayList <Object> response, String type) {
         try {
-            switch (response) {
+            switch (response.get(0).toString()) {
                 case "success":
                     modal.success_message("Carga masiva de " + type + ".", "Éxito al cargar archivo.", "Los " + type + " fueron cargados con éxito.", null, null);
                    // logs.escribirAccessLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Los " + type + " fueron cargados con éxito.");
+                    loadData((ArrayList<String>) response.get(1));
                     break;
                 case "error.noclassdeffounderror":
                     modal.error_message("Carga masiva de " + type + ".", "Error fatal.", "Librería de lectura de archivo extraviada.", "Comuníquese con el área de sistemas.", null);

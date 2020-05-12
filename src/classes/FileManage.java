@@ -6,6 +6,7 @@
 package classes;
 
 import java.io.*;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
 /**
@@ -15,9 +16,19 @@ import javax.swing.JFileChooser;
 public class FileManage {
 
     String ruta;
+    String file_content;
 
     public FileManage() {
         ruta = null;
+        file_content = null;
+    }
+
+    public String getFile_content() {
+        return file_content;
+    }
+
+    public void setFile_content(String file_content) {
+        this.file_content = file_content;
     }
 
     public String getRuta() {
@@ -52,8 +63,10 @@ public class FileManage {
         return response;
     }
 
-    public static String readFile(String url_file) {
+    public static ArrayList <Object> readFile(String url_file) {
+        ArrayList<Object> result = new ArrayList<>();
         String response = "error.unknow";
+        ArrayList<String> content = new ArrayList<>();
         String archTXT = url_file;
 
         File archivo = null;
@@ -70,13 +83,14 @@ public class FileManage {
             // Lectura del fichero
             String linea;
             while ((linea = br.readLine()) != null) {
-                System.out.println(linea);
+               content.add(linea);
             }
+            
             response = "success";
         } catch (IOException ex) {
             //logs.escribirExceptionLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// " + ex.getMessage() + " " + ex.toString());
         } catch (NoClassDefFoundError ex) {
-            System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName() + "// " + ex.getMessage() + " " + ex.toString());
+            //System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName() + "// " + ex.getMessage() + " " + ex.toString());
             response = "error.noclassdeffounderror";
         } catch (NullPointerException ex) {
             //logs.escribirExceptionLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// " + ex.getMessage() + " " + ex.toString());
@@ -92,10 +106,14 @@ public class FileManage {
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
+            result.add(response);
+            result.add(content);
         }
 
-        return response;
+        return result;
 
     }
+    
+    
 
 }

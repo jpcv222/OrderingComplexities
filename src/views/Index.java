@@ -209,7 +209,7 @@ public class Index extends javax.swing.JFrame {
 
     private void jButtonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCargarActionPerformed
         // TODO add your handling code here:
-        manager.readCSVFile();
+        manager.readTXTFile();
     }//GEN-LAST:event_jButtonCargarActionPerformed
 
     /**
