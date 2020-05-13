@@ -12,9 +12,14 @@ package classes;
 public class Animal {
 
     private String name;
-    private int weight;
+    private int greatness;
 
-        public String getName() {
+    public Animal(String name, int greatness) {
+        this.name = name;
+        this.greatness = greatness;
+    }
+
+    public String getName() {
         return name;
     }
 
@@ -22,12 +27,12 @@ public class Animal {
         this.name = name;
     }
 
-    public int getWeight() {
-        return weight;
+    public int getGreatness() {
+        return greatness;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public void setGreatness(int greatness) {
+        this.greatness = greatness;
     }
 
 }
