@@ -55,49 +55,49 @@ public class manager_index {
     }
 
     public void loadData(ArrayList<String> data) {
-        String data_proccesing;
+        String data_processing ;
         String[] animals_array, greatness_array;
 
         //Var n
-        data_proccesing = data.get(0);
-        data_proccesing = data_proccesing.replaceAll(" ", "");
-        data_proccesing = data_proccesing.replaceAll(";", "");
-        data_proccesing = data_proccesing.split("=")[1];
-        this.n = Integer.parseInt(data_proccesing);
+        data_processing  = data.get(0);
+        data_processing  = data_processing .replaceAll(" ", "");
+        data_processing  = data_processing .replaceAll(";", "");
+        data_processing  = data_processing .split("=")[1];
+        this.n = Integer.parseInt(data_processing );
 
         //Var m
-        data_proccesing = data.get(1);
-        data_proccesing = data_proccesing.replaceAll(" ", "");
-        data_proccesing = data_proccesing.replaceAll(";", "");
-        data_proccesing = data_proccesing.split("=")[1];
-        this.n = Integer.parseInt(data_proccesing);
+        data_processing  = data.get(1);
+        data_processing  = data_processing .replaceAll(" ", "");
+        data_processing  = data_processing .replaceAll(";", "");
+        data_processing  = data_processing .split("=")[1];
+        this.n = Integer.parseInt(data_processing );
 
         //Var k
-        data_proccesing = data.get(2);
-        data_proccesing = data_proccesing.replaceAll(" ", "");
-        data_proccesing = data_proccesing.replaceAll(";", "");
-        data_proccesing = data_proccesing.split("=")[1];
-        this.n = Integer.parseInt(data_proccesing);
+        data_processing  = data.get(2);
+        data_processing  = data_processing .replaceAll(" ", "");
+        data_processing  = data_processing .replaceAll(";", "");
+        data_processing  = data_processing .split("=")[1];
+        this.n = Integer.parseInt(data_processing );
 
         //Var animals
         String name;
         int greatness;
 
-        data_proccesing = data.get(3);
-        data_proccesing = data_proccesing.replaceAll(" ", "");
-        data_proccesing = data_proccesing.replaceAll(";", "");
-        data_proccesing = data_proccesing.split("=")[1];
-        data_proccesing = data_proccesing.replaceAll("{", "");
-        data_proccesing = data_proccesing.replaceAll("}", "");
-        animals_array = data_proccesing.split(",");
+        data_processing  = data.get(3);
+        data_processing  = data_processing .replaceAll(" ", "");
+        data_processing  = data_processing .replaceAll(";", "");
+        data_processing  = data_processing .split("=")[1];
+        data_processing  = data_processing .replaceAll("{", "");
+        data_processing  = data_processing .replaceAll("}", "");
+        animals_array = data_processing .split(",");
 
-        data_proccesing = data.get(4);
-        data_proccesing = data_proccesing.replaceAll(" ", "");
-        data_proccesing = data_proccesing.replaceAll(";", "");
-        data_proccesing = data_proccesing.split("=")[1];
-        data_proccesing = data_proccesing.replaceAll("{", "");
-        data_proccesing = data_proccesing.replaceAll("}", "");
-        greatness_array = data_proccesing.split(",");
+        data_processing  = data.get(4);
+        data_processing  = data_processing .replaceAll(" ", "");
+        data_processing  = data_processing .replaceAll(";", "");
+        data_processing  = data_processing .split("=")[1];
+        data_processing  = data_processing .replaceAll("{", "");
+        data_processing  = data_processing .replaceAll("}", "");
+        greatness_array = data_processing .split(",");
 
         this.animales = new Animal[animals_array.length];
 
@@ -112,19 +112,19 @@ public class manager_index {
 
         // Var apertura
         String [] apertura_aux; 
-        data_proccesing = data.get(5);
-        data_proccesing = data_proccesing.replaceAll("{", "");
-        data_proccesing = data_proccesing.replaceAll("}}:", "");
-        data_proccesing = data_proccesing.split("=")[1];
+        data_processing  = data.get(5);
+        data_processing  = data_processing .replaceAll("{", "");
+        data_processing  = data_processing .replaceAll("}}:", "");
+        data_processing  = data_processing .split("=")[1];
         
         //Extrae como una cadena las escenas
-        apertura_aux = data_proccesing.split("},");
+        apertura_aux = data_processing .split("},");
         
         
-        data_proccesing = data_proccesing.replaceAll(";", "");
-        data_proccesing = data_proccesing.replaceAll("{", "");
-        data_proccesing = data_proccesing.replaceAll("}", "");
-        greatness_array = data_proccesing.split(",");
+        data_processing  = data_processing .replaceAll(";", "");
+        data_processing  = data_processing .replaceAll("{", "");
+        data_processing  = data_processing .replaceAll("}", "");
+        greatness_array = data_processing .split(",");
 
         for (int i = 5; i < data.size(); i++) {
             if (i == 0) {
