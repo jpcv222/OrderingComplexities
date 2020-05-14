@@ -22,7 +22,8 @@ public class manager_index {
     private Dialogs modal;
     private Animal[] animales;
     private int n, m, k;
-    private String [] apertura;
+    private Animal[][] apertura;
+    private Animal[][][] partes;
 
     public manager_index(Index index) {
         this.index = index;
@@ -55,49 +56,49 @@ public class manager_index {
     }
 
     public void loadData(ArrayList<String> data) {
-        String data_processing ;
+        String data_processing;
         String[] animals_array, greatness_array;
 
         //Var n
-        data_processing  = data.get(0);
-        data_processing  = data_processing .replaceAll(" ", "");
-        data_processing  = data_processing .replaceAll(";", "");
-        data_processing  = data_processing .split("=")[1];
-        this.n = Integer.parseInt(data_processing );
+        data_processing = data.get(0);
+        data_processing = data_processing.replaceAll(" ", "");
+        data_processing = data_processing.replaceAll(";", "");
+        data_processing = data_processing.split("=")[1];
+        this.n = Integer.parseInt(data_processing);
 
         //Var m
-        data_processing  = data.get(1);
-        data_processing  = data_processing .replaceAll(" ", "");
-        data_processing  = data_processing .replaceAll(";", "");
-        data_processing  = data_processing .split("=")[1];
-        this.n = Integer.parseInt(data_processing );
+        data_processing = data.get(1);
+        data_processing = data_processing.replaceAll(" ", "");
+        data_processing = data_processing.replaceAll(";", "");
+        data_processing = data_processing.split("=")[1];
+        this.m = Integer.parseInt(data_processing);
 
         //Var k
-        data_processing  = data.get(2);
-        data_processing  = data_processing .replaceAll(" ", "");
-        data_processing  = data_processing .replaceAll(";", "");
-        data_processing  = data_processing .split("=")[1];
-        this.n = Integer.parseInt(data_processing );
+        data_processing = data.get(2);
+        data_processing = data_processing.replaceAll(" ", "");
+        data_processing = data_processing.replaceAll(";", "");
+        data_processing = data_processing.split("=")[1];
+        this.k = Integer.parseInt(data_processing);
 
         //Var animals
         String name;
         int greatness;
 
-        data_processing  = data.get(3);
-        data_processing  = data_processing .replaceAll(" ", "");
-        data_processing  = data_processing .replaceAll(";", "");
-        data_processing  = data_processing .split("=")[1];
-        data_processing  = data_processing .replaceAll("{", "");
-        data_processing  = data_processing .replaceAll("}", "");
-        animals_array = data_processing .split(",");
+        data_processing = data.get(3);
+        data_processing = data_processing.replaceAll(" ", "");
+        data_processing = data_processing.replaceAll(";", "");
+        data_processing = data_processing.split("=")[1];
+        data_processing = data_processing.replaceAll("\\{", "");
+        data_processing = data_processing.replaceAll("}", "");
+        animals_array = data_processing.split(",");
 
-        data_processing  = data.get(4);
-        data_processing  = data_processing .replaceAll(" ", "");
-        data_processing  = data_processing .replaceAll(";", "");
-        data_processing  = data_processing .split("=")[1];
-        data_processing  = data_processing .replaceAll("{", "");
-        data_processing  = data_processing .replaceAll("}", "");
-        greatness_array = data_processing .split(",");
+        data_processing = data.get(4);
+        data_processing = data_processing.replaceAll(" ", "");
+        data_processing = data_processing.replaceAll(";", "");
+        data_processing = data_processing.split("=")[1];
+        data_processing = data_processing.replaceAll("\\{", "");
+        data_processing = data_processing.replaceAll("}", "");
+        greatness_array = data_processing.split(",");
 
         this.animales = new Animal[animals_array.length];
 
@@ -111,28 +112,89 @@ public class manager_index {
         }
 
         // Var apertura
-        String [] apertura_aux; 
-        data_processing  = data.get(5);
-        data_processing  = data_processing .replaceAll("{", "");
-        data_processing  = data_processing .replaceAll("}}:", "");
-        data_processing  = data_processing .split("=")[1];
-        
+        String[] parte_aux;
+        data_processing = data.get(5);
+        data_processing = data_processing.replaceAll("\\{", "");
+        data_processing = data_processing.replaceAll("}};", "");
+        data_processing = data_processing.split("=")[1];
+
         //Extrae como una cadena las escenas
-        apertura_aux = data_processing .split("},");
-        
-        
-        data_processing  = data_processing .replaceAll(";", "");
-        data_processing  = data_processing .replaceAll("{", "");
-        data_processing  = data_processing .replaceAll("}", "");
-        greatness_array = data_processing .split(",");
+        parte_aux = data_processing.split("},");
 
-        for (int i = 5; i < data.size(); i++) {
-            if (i == 0) {
+        String[] escena_aux;
+        Animal[] escena = new Animal[3];
+        this.apertura = new Animal[parte_aux.length][3];
 
-                //this.n = data.get(i);
+        for (int i = 0; i < parte_aux.length; i++) {
+
+            //Extrae nombres de animales de cada escena en una variable auxiliar
+            escena_aux = parte_aux[i].split(",");
+
+            //Traduce nombres de animales de una escena a Objeto Animal
+            //El arreglo escena contendrá los Animales de una escena
+            for (int j = 0; j < escena_aux.length; j++) {
+                this.apertura[i][j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
+                //System.out.println("Escena " + i + " Animal " + this.apertura[i][j].getName());
             }
-            System.out.println("Líena: " + i + " Dato: " + data.get(i).replaceAll(";", ""));
+
+            //Ingresa cada escena de Animales en la parte apertura
+            //this.apertura[i] = escena;
         }
+
+        //Var partes
+        this.partes = new Animal[this.m - 1][this.k][3];
+        int count_partes = 0;
+
+        for (int h = 6; h < data.size(); h++) {
+
+            data_processing = data.get(h);
+            data_processing = data_processing.replaceAll("\\{", "");
+            data_processing = data_processing.replaceAll("}};", "");
+            data_processing = data_processing.split("=")[1];
+
+            //Extrae como una cadena las escenas
+            parte_aux = data_processing.split("},");
+
+            for (int i = 0; i < parte_aux.length; i++) {
+
+                //Extrae nombres de animales de cada escena en una variable auxiliar
+                escena_aux = parte_aux[i].split(",");
+
+                //Traduce nombres de animales de una escena a Objeto Animal
+                //El arreglo escena contendrá los Animales de una escena
+                for (int j = 0; j < escena_aux.length; j++) {
+                    //Agregar animal a una escena de una parte
+                    this.partes[count_partes][i][j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
+                    //System.out.println("Escena " + i + " Animal " + this.partes[count_partes][i][j].getName());
+                }
+
+               
+            }
+            
+            count_partes++;
+            //Ingresa cada parte en el arreglo de partes
+            //this.partes[h] = animal_parte_aux;
+        }
+
+        for (int i = 0; i < this.m -1; i++) {
+            for (int j = 0; j < this.k; j++) {
+                for (int l = 0; l < 3; l++) {
+                 System.out.println("Parte  " + i +" Escena " + j + " Animal " + this.partes[i][j][l].getName()); 
+                }
+            }
+        }
+    }
+
+    public Animal getAnimalByName(String name) {
+        Animal animal = null;
+        for (int i = 0; i < this.animales.length; i++) {
+            if (this.animales[i].getName().equals(name)) {
+                animal = this.animales[i];
+                break;
+            }
+        }
+
+        return animal;
     }
 
     public void resultUpload(ArrayList<Object> response, String type) {
