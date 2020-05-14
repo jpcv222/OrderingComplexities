@@ -9,12 +9,12 @@ package classes;
  *
  * @author jpcv2
  */
-public class Scene {
-    
+public class Part {
     int overall_greatness;
-    public Animal [] animales =  new Animal[3];
+    public Scene [] scenes ;
 
-    public Scene() {
+    public Part(int k) {
+        this.scenes = new Scene[k];
     }
 
     public int getOverall_greatness() {
@@ -25,14 +25,13 @@ public class Scene {
         this.overall_greatness = overall_greatness;
     }
 
-    public Animal[] getAnimales() {
-        return animales;
+    public Scene[] getScenes() {
+        return scenes;
     }
 
-    public void setAnimales(Animal[] animales) {
-        this.animales = animales;
+    public void setScenes(Scene[] scenes) {
+        this.scenes = scenes;
     }
-    
-    
+
     
 }
