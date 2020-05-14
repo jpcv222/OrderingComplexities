@@ -47,6 +47,7 @@ public class Index extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabelRutaArchivo = new javax.swing.JLabel();
         jButtonCargar = new javax.swing.JButton();
+        jcbComplejidad = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -110,6 +111,18 @@ public class Index extends javax.swing.JFrame {
             }
         });
 
+        jcbComplejidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Complejidad O(n)", "Complejidad O(nlogn)", "Complejidad O(n^2)" }));
+        jcbComplejidad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jcbComplejidadMouseClicked(evt);
+            }
+        });
+        jcbComplejidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbComplejidadActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -118,12 +131,14 @@ public class Index extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabelRutaArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanelSelectCSVUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                        .addComponent(jButtonCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButtonCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcbComplejidad, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelRutaArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -135,7 +150,9 @@ public class Index extends javax.swing.JFrame {
                     .addComponent(jButtonCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabelRutaArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jcbComplejidad, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cargar archivo de entrada", jPanel2);
@@ -212,6 +229,16 @@ public class Index extends javax.swing.JFrame {
         manager.readTXTFile();
     }//GEN-LAST:event_jButtonCargarActionPerformed
 
+    private void jcbComplejidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbComplejidadActionPerformed
+        // TODO add your handling code here:
+        manager.setComplejidad(jcbComplejidad.getSelectedIndex());
+    }//GEN-LAST:event_jcbComplejidadActionPerformed
+
+    private void jcbComplejidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcbComplejidadMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jcbComplejidadMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -258,5 +285,6 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     public javax.swing.JPanel jPanelSelectCSVUser;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JComboBox<String> jcbComplejidad;
     // End of variables declaration//GEN-END:variables
 }

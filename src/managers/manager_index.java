@@ -20,10 +20,21 @@ public class manager_index {
     private final FileManage file;
     private Index index;
     private Dialogs modal;
+
     private Animal[] animales;
     private int n, m, k;
     private Animal[][] apertura;
     private Animal[][][] partes;
+
+    private int complejidad;
+
+    public int getComplejidad() {
+        return complejidad;
+    }
+
+    public void setComplejidad(int complejidad) {
+        this.complejidad = complejidad;
+    }
 
     public manager_index(Index index) {
         this.index = index;
@@ -32,6 +43,24 @@ public class manager_index {
         this.n = 0;
         this.m = 0;
         this.k = 0;
+        this.complejidad = 0;
+    }
+
+    public void zooSolution() {
+        switch (this.complejidad) {
+            case 0:
+                //Solución para complejidad n
+                
+                break;
+            case 1:
+                //Solución para complejidad nlogn
+                
+                break;
+            case 2:
+                //Solución para complejidad n^2
+                
+                break;
+        }
     }
 
     public void validateBtCargar() {
@@ -168,18 +197,17 @@ public class manager_index {
                     //System.out.println("Escena " + i + " Animal " + this.partes[count_partes][i][j].getName());
                 }
 
-               
             }
-            
+
             count_partes++;
             //Ingresa cada parte en el arreglo de partes
             //this.partes[h] = animal_parte_aux;
         }
 
-        for (int i = 0; i < this.m -1; i++) {
+        for (int i = 0; i < this.m - 1; i++) {
             for (int j = 0; j < this.k; j++) {
                 for (int l = 0; l < 3; l++) {
-                 System.out.println("Parte  " + i +" Escena " + j + " Animal " + this.partes[i][j][l].getName()); 
+                    System.out.println("Parte  " + i + " Escena " + j + " Animal " + this.partes[i][j][l].getName());
                 }
             }
         }
@@ -204,6 +232,7 @@ public class manager_index {
                     modal.success_message("Carga masiva de " + type + ".", "Éxito al cargar archivo.", "Los " + type + " fueron cargados con éxito.", null, null);
                     // logs.escribirAccessLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Los " + type + " fueron cargados con éxito.");
                     loadData((ArrayList<String>) response.get(1));
+                    zooSolution();
                     break;
                 case "error.noclassdeffounderror":
                     modal.error_message("Carga masiva de " + type + ".", "Error fatal.", "Librería de lectura de archivo extraviada.", "Comuníquese con el área de sistemas.", null);
