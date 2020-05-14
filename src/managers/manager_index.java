@@ -7,6 +7,8 @@ package managers;
 
 import classes.Animal;
 import classes.FileManage;
+import classes.Part;
+import classes.Scene;
 import components.Dialogs;
 import java.util.ArrayList;
 import views.Index;
@@ -23,9 +25,11 @@ public class manager_index {
 
     private Animal[] animales;
     private int n, m, k;
-    private Animal[][] apertura;
-    private Animal[][][] partes;
+    //private Animal[][] apertura;
+    //private Animal[][][] partes;
 
+    Part[] parts;
+    Scene [] opening;
     private int complejidad;
 
     public int getComplejidad() {
@@ -50,17 +54,21 @@ public class manager_index {
         switch (this.complejidad) {
             case 0:
                 //Solución para complejidad n
-                
+
                 break;
             case 1:
                 //Solución para complejidad nlogn
-                
+
                 break;
             case 2:
                 //Solución para complejidad n^2
-                
+                cuadraticComplexity();
                 break;
         }
+    }
+
+    public void cuadraticComplexity() {
+
     }
 
     public void validateBtCargar() {
@@ -152,27 +160,41 @@ public class manager_index {
 
         String[] escena_aux;
         Animal[] escena = new Animal[3];
-        this.apertura = new Animal[parte_aux.length][3];
+        this.opening = new Scene[parte_aux.length];
 
         for (int i = 0; i < parte_aux.length; i++) {
 
             //Extrae nombres de animales de cada escena en una variable auxiliar
             escena_aux = parte_aux[i].split(",");
-
+            
+            //Inicializa un objeto escena en cada posición del arreglo opening
+            this.opening[i] = new Scene();
+            
             //Traduce nombres de animales de una escena a Objeto Animal
             //El arreglo escena contendrá los Animales de una escena
             for (int j = 0; j < escena_aux.length; j++) {
-                this.apertura[i][j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
+                
+                //Agregar animal a una escena de opening
+                this.opening[i].animales[j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
                 //System.out.println("Escena " + i + " Animal " + this.apertura[i][j].getName());
             }
 
             //Ingresa cada escena de Animales en la parte apertura
             //this.apertura[i] = escena;
         }
+        
+        for (int j = 0; j < this.opening.length; j++) {
+                for (int l = 0; l < 3; l++) {
+                    System.out.println("Apertura Escena " + j + " Animal " + this.opening[j].getAnimales()[l].getName());
+                }
+            }
 
         //Var partes
-        this.partes = new Animal[this.m - 1][this.k][3];
+        //this.partes = new Animal[this.m - 1][this.k][3];
         int count_partes = 0;
+        this.parts = new Part[this.m - 1];
+
+        Animal[] animals_aux = new Animal[3];
 
         for (int h = 6; h < data.size(); h++) {
 
@@ -183,31 +205,46 @@ public class manager_index {
 
             //Extrae como una cadena las escenas
             parte_aux = data_processing.split("},");
+            
+            //Inicializa un objeto Parte en el arreglo de partes 
+            this.parts[count_partes] = new Part(this.k);
 
             for (int i = 0; i < parte_aux.length; i++) {
 
                 //Extrae nombres de animales de cada escena en una variable auxiliar
                 escena_aux = parte_aux[i].split(",");
-
+                
+                //Inicializa un objeto escena en el arreglo de escenas de cada parte
+                this.parts[count_partes].scenes[i] = new Scene();
+                
                 //Traduce nombres de animales de una escena a Objeto Animal
                 //El arreglo escena contendrá los Animales de una escena
                 for (int j = 0; j < escena_aux.length; j++) {
+
+                    //this.partes[count_partes][i][j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
+                    //System.out.println(this.parts[count_partes]);
+                    //System.out.println(this.parts[count_partes].scenes[i]);
+                    //System.out.println(this.parts[count_partes].scenes[i].animales[j]);
+                    
                     //Agregar animal a una escena de una parte
-                    this.partes[count_partes][i][j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
+                    this.parts[count_partes].scenes[i].animales[j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
+                    //this.parts[count_partes].scenes[i].animales[j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
                     //System.out.println("Escena " + i + " Animal " + this.partes[count_partes][i][j].getName());
                 }
 
             }
-
+            
+            //Coontador para las m-1 partes
             count_partes++;
             //Ingresa cada parte en el arreglo de partes
             //this.partes[h] = animal_parte_aux;
         }
 
+        
         for (int i = 0; i < this.m - 1; i++) {
             for (int j = 0; j < this.k; j++) {
                 for (int l = 0; l < 3; l++) {
-                    System.out.println("Parte  " + i + " Escena " + j + " Animal " + this.partes[i][j][l].getName());
+                    System.out.println("Parte  " + i + " Escena " + j + " Animal " + this.parts[i].getScenes()[j].getAnimales()[l].getName());
                 }
             }
         }
@@ -232,7 +269,7 @@ public class manager_index {
                     modal.success_message("Carga masiva de " + type + ".", "Éxito al cargar archivo.", "Los " + type + " fueron cargados con éxito.", null, null);
                     // logs.escribirAccessLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Los " + type + " fueron cargados con éxito.");
                     loadData((ArrayList<String>) response.get(1));
-                    zooSolution();
+                    //zooSolution();
                     break;
                 case "error.noclassdeffounderror":
                     modal.error_message("Carga masiva de " + type + ".", "Error fatal.", "Librería de lectura de archivo extraviada.", "Comuníquese con el área de sistemas.", null);
