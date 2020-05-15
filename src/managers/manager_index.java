@@ -68,10 +68,6 @@ public class manager_index {
     }
 
     public void cuadraticComplexity() {
-        
-        //Grandeza de escenas
-        greatnessAsign(this.opening);
-        //Grandeza de partes
 
         //Ordenar apertura
         cuadraticSortScenes(this.opening.getScenes());
@@ -86,27 +82,25 @@ public class manager_index {
     }
 
     public void sortAnimals(Animal[] arr) {
-        
+
         Animal aux;
-        if(arr[0].getGreatness() > arr[1].getGreatness()){
+        if (arr[0].getGreatness() > arr[1].getGreatness()) {
             aux = arr[1];
             arr[1] = arr[0];
             arr[0] = arr[1];
         }
-        if(arr[1].getGreatness() > arr[2].getGreatness()){
+        if (arr[1].getGreatness() > arr[2].getGreatness()) {
             aux = arr[2];
-            arr[2] = arr [1];
-            arr [1] = arr[2];
+            arr[2] = arr[1];
+            arr[1] = arr[2];
         }
-        
-        if(arr[0].getGreatness() > arr[1].getGreatness()){
+
+        if (arr[0].getGreatness() > arr[1].getGreatness()) {
             aux = arr[1];
             arr[1] = arr[0];
             arr[0] = arr[1];
         }
     }
-    
-    
 
     public void cuadraticSortScenes(Scene[] arr) {
         for (int i = 0; i < arr.length; i++) {
@@ -115,21 +109,9 @@ public class manager_index {
             //printAnimals(arr[i].getAnimales());
         }
     }
-    
-    public void printParts (Part[] arr){
-        
-    }
-    
-    public void greatnessAsign(Part part){
-        int greatnessPart = 0;
-        int greatnessScenes = 0;
-        
-        for (int i = 0; i < part.getScenes().length; i++) {
-            for (int j = 0; j < 3; j++) {
-                
-            }
-            greatnessPart += part.getScenes()[i].getOverall_greatness();
-        }
+
+    public void printParts(Part[] arr) {
+
     }
 
     public void validateBtCargar() {
@@ -225,6 +207,8 @@ public class manager_index {
 
         for (int i = 0; i < parte_aux.length; i++) {
 
+            greatness = 0;
+
             //Extrae nombres de animales de cada escena en una variable auxiliar
             escena_aux = parte_aux[i].split(",");
 
@@ -234,12 +218,13 @@ public class manager_index {
             //Traduce nombres de animales de una escena a Objeto Animal
             //El arreglo escena contendrá los Animales de una escena
             for (int j = 0; j < escena_aux.length; j++) {
-
                 //Agregar animal a una escena de opening
                 this.opening.scenes[i].animales[j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
                 //System.out.println("Escena " + i + " Animal " + this.apertura[i][j].getName());
-            }
 
+                greatness += this.opening.scenes[i].animales[j].getGreatness();
+            }
+            this.opening.scenes[i].setOverall_greatness(greatness);
             //Ingresa cada escena de Animales en la parte apertura
             //this.apertura[i] = escena;
         }
@@ -247,6 +232,7 @@ public class manager_index {
         for (int j = 0; j < this.opening.getScenes().length; j++) {
             for (int l = 0; l < 3; l++) {
                 System.out.println("Apertura Escena " + j + " Animal " + this.opening.getScenes()[j].getAnimales()[l].getName());
+                System.out.println("Grandeza escena " + this.opening.getScenes()[j].getOverall_greatness());
             }
         }
 
@@ -256,6 +242,7 @@ public class manager_index {
         this.parts = new Part[this.m - 1];
 
         Animal[] animals_aux = new Animal[3];
+        int greatness_part;
 
         for (int h = 6; h < data.size(); h++) {
 
@@ -266,12 +253,15 @@ public class manager_index {
 
             //Extrae como una cadena las escenas
             parte_aux = data_processing.split("},");
+            
+            greatness_part = 0;
 
             //Inicializa un objeto Parte en el arreglo de partes 
             this.parts[count_partes] = new Part(this.k);
 
             for (int i = 0; i < parte_aux.length; i++) {
-
+                
+                greatness = 0;
                 //Extrae nombres de animales de cada escena en una variable auxiliar
                 escena_aux = parte_aux[i].split(",");
 
@@ -290,9 +280,13 @@ public class manager_index {
                     this.parts[count_partes].scenes[i].animales[j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
                     //this.parts[count_partes].scenes[i].animales[j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
                     //System.out.println("Escena " + i + " Animal " + this.partes[count_partes][i][j].getName());
+                    greatness += this.parts[count_partes].scenes[i].animales[j].getGreatness();
                 }
-
+                this.parts[count_partes].scenes[i].setOverall_greatness(greatness);
+                greatness_part += this.parts[count_partes].scenes[i].getOverall_greatness();
             }
+            
+            this.parts[count_partes].setOverall_greatness(greatness_part);
 
             //Coontador para las m-1 partes
             count_partes++;
@@ -303,8 +297,9 @@ public class manager_index {
         for (int i = 0; i < this.m - 1; i++) {
             for (int j = 0; j < this.k; j++) {
                 for (int l = 0; l < 3; l++) {
-                    System.out.println("Parte  " + i + " Escena " + j + " Animal " 
+                    System.out.println("Parte  " + i + " Escena " + j + " Animal "
                             + this.parts[i].getScenes()[j].getAnimales()[l].getName());
+                     System.out.println("Grandeza parte " + this.parts[i].getOverall_greatness() + " Grandeza escena " +this.parts[i].getScenes()[j].getOverall_greatness());
                 }
             }
         }
