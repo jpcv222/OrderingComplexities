@@ -29,7 +29,7 @@ public class manager_index {
     //private Animal[][][] partes;
 
     Part[] parts;
-    Scene [] opening;
+    Part opening;
     private int complejidad;
 
     public int getComplejidad() {
@@ -68,7 +68,68 @@ public class manager_index {
     }
 
     public void cuadraticComplexity() {
+        
+        //Grandeza de escenas
+        greatnessAsign(this.opening);
+        //Grandeza de partes
 
+        //Ordenar apertura
+        cuadraticSortScenes(this.opening.getScenes());
+        //Ordenar m - 1 partes
+        for (int i = 0; i < this.m - 1; i++) {
+            for (int j = 0; j < this.k; j++) {
+                for (int l = 0; l < 3; l++) {
+                    System.out.println("Parte  " + i + " Escena " + j + " Animal " + this.parts[i].getScenes()[j].getAnimales()[l].getName());
+                }
+            }
+        }
+    }
+
+    public void sortAnimals(Animal[] arr) {
+        
+        Animal aux;
+        if(arr[0].getGreatness() > arr[1].getGreatness()){
+            aux = arr[1];
+            arr[1] = arr[0];
+            arr[0] = arr[1];
+        }
+        if(arr[1].getGreatness() > arr[2].getGreatness()){
+            aux = arr[2];
+            arr[2] = arr [1];
+            arr [1] = arr[2];
+        }
+        
+        if(arr[0].getGreatness() > arr[1].getGreatness()){
+            aux = arr[1];
+            arr[1] = arr[0];
+            arr[0] = arr[1];
+        }
+    }
+    
+    
+
+    public void cuadraticSortScenes(Scene[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            //printAnimals(arr[i].getAnimales());
+            sortAnimals(arr[i].getAnimales());
+            //printAnimals(arr[i].getAnimales());
+        }
+    }
+    
+    public void printParts (Part[] arr){
+        
+    }
+    
+    public void greatnessAsign(Part part){
+        int greatnessPart = 0;
+        int greatnessScenes = 0;
+        
+        for (int i = 0; i < part.getScenes().length; i++) {
+            for (int j = 0; j < 3; j++) {
+                
+            }
+            greatnessPart += part.getScenes()[i].getOverall_greatness();
+        }
     }
 
     public void validateBtCargar() {
@@ -160,34 +221,34 @@ public class manager_index {
 
         String[] escena_aux;
         Animal[] escena = new Animal[3];
-        this.opening = new Scene[parte_aux.length];
+        this.opening = new Part(parte_aux.length);
 
         for (int i = 0; i < parte_aux.length; i++) {
 
             //Extrae nombres de animales de cada escena en una variable auxiliar
             escena_aux = parte_aux[i].split(",");
-            
+
             //Inicializa un objeto escena en cada posición del arreglo opening
-            this.opening[i] = new Scene();
-            
+            this.opening.scenes[i] = new Scene();
+
             //Traduce nombres de animales de una escena a Objeto Animal
             //El arreglo escena contendrá los Animales de una escena
             for (int j = 0; j < escena_aux.length; j++) {
-                
+
                 //Agregar animal a una escena de opening
-                this.opening[i].animales[j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
+                this.opening.scenes[i].animales[j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
                 //System.out.println("Escena " + i + " Animal " + this.apertura[i][j].getName());
             }
 
             //Ingresa cada escena de Animales en la parte apertura
             //this.apertura[i] = escena;
         }
-        
-        for (int j = 0; j < this.opening.length; j++) {
-                for (int l = 0; l < 3; l++) {
-                    System.out.println("Apertura Escena " + j + " Animal " + this.opening[j].getAnimales()[l].getName());
-                }
+
+        for (int j = 0; j < this.opening.getScenes().length; j++) {
+            for (int l = 0; l < 3; l++) {
+                System.out.println("Apertura Escena " + j + " Animal " + this.opening.getScenes()[j].getAnimales()[l].getName());
             }
+        }
 
         //Var partes
         //this.partes = new Animal[this.m - 1][this.k][3];
@@ -205,7 +266,7 @@ public class manager_index {
 
             //Extrae como una cadena las escenas
             parte_aux = data_processing.split("},");
-            
+
             //Inicializa un objeto Parte en el arreglo de partes 
             this.parts[count_partes] = new Part(this.k);
 
@@ -213,10 +274,10 @@ public class manager_index {
 
                 //Extrae nombres de animales de cada escena en una variable auxiliar
                 escena_aux = parte_aux[i].split(",");
-                
+
                 //Inicializa un objeto escena en el arreglo de escenas de cada parte
                 this.parts[count_partes].scenes[i] = new Scene();
-                
+
                 //Traduce nombres de animales de una escena a Objeto Animal
                 //El arreglo escena contendrá los Animales de una escena
                 for (int j = 0; j < escena_aux.length; j++) {
@@ -225,7 +286,6 @@ public class manager_index {
                     //System.out.println(this.parts[count_partes]);
                     //System.out.println(this.parts[count_partes].scenes[i]);
                     //System.out.println(this.parts[count_partes].scenes[i].animales[j]);
-                    
                     //Agregar animal a una escena de una parte
                     this.parts[count_partes].scenes[i].animales[j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
                     //this.parts[count_partes].scenes[i].animales[j] = getAnimalByName(escena_aux[j].replaceAll(" ", ""));
@@ -233,18 +293,18 @@ public class manager_index {
                 }
 
             }
-            
+
             //Coontador para las m-1 partes
             count_partes++;
             //Ingresa cada parte en el arreglo de partes
             //this.partes[h] = animal_parte_aux;
         }
 
-        
         for (int i = 0; i < this.m - 1; i++) {
             for (int j = 0; j < this.k; j++) {
                 for (int l = 0; l < 3; l++) {
-                    System.out.println("Parte  " + i + " Escena " + j + " Animal " + this.parts[i].getScenes()[j].getAnimales()[l].getName());
+                    System.out.println("Parte  " + i + " Escena " + j + " Animal " 
+                            + this.parts[i].getScenes()[j].getAnimales()[l].getName());
                 }
             }
         }
