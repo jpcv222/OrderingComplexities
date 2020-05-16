@@ -85,10 +85,11 @@ public class manager_index {
                 }
             }
         max = getMaxOverallGreatnessScenes(this.opening.getScenes());
-        this.opening.setScenes(countingSortScenes(this.opening.getScenes(), max));
         for (int i = 0; i < this.opening.getScenes().length; i++) {
             sortAnimals(this.opening.getScenes()[i].getAnimales());
         }
+        this.opening.setScenes(countingSortScenes(this.opening.getScenes(), max));
+        
         System.out.println("--- Ordenadas escenas y animales");
         
         for (int j = 0; j < this.opening.getScenes().length; j++) {
