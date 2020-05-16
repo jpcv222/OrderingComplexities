@@ -31,6 +31,7 @@ public class manager_index {
     Part[] parts;
     Part opening;
     private int complejidad;
+    long TInicio, TFin, tiempo;
 
     public int getComplejidad() {
         return complejidad;
@@ -51,6 +52,8 @@ public class manager_index {
     }
 
     public void zooSolution() {
+        TInicio = System.currentTimeMillis(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
+        
         switch (this.complejidad) {
             case 0:
                 //Solución para complejidad n
@@ -65,6 +68,11 @@ public class manager_index {
                 cuadraticComplexity();
                 break;
         }
+
+        TFin = System.currentTimeMillis(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
+        tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
+        System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
+
     }
 
     public void cuadraticComplexity() {
@@ -253,14 +261,14 @@ public class manager_index {
 
             //Extrae como una cadena las escenas
             parte_aux = data_processing.split("},");
-            
+
             greatness_part = 0;
 
             //Inicializa un objeto Parte en el arreglo de partes 
             this.parts[count_partes] = new Part(this.k);
 
             for (int i = 0; i < parte_aux.length; i++) {
-                
+
                 greatness = 0;
                 //Extrae nombres de animales de cada escena en una variable auxiliar
                 escena_aux = parte_aux[i].split(",");
@@ -285,7 +293,7 @@ public class manager_index {
                 this.parts[count_partes].scenes[i].setOverall_greatness(greatness);
                 greatness_part += this.parts[count_partes].scenes[i].getOverall_greatness();
             }
-            
+
             this.parts[count_partes].setOverall_greatness(greatness_part);
 
             //Coontador para las m-1 partes
@@ -299,7 +307,7 @@ public class manager_index {
                 for (int l = 0; l < 3; l++) {
                     System.out.println("Parte  " + i + " Escena " + j + " Animal "
                             + this.parts[i].getScenes()[j].getAnimales()[l].getName());
-                     System.out.println("Grandeza parte " + this.parts[i].getOverall_greatness() + " Grandeza escena " +this.parts[i].getScenes()[j].getOverall_greatness());
+                    System.out.println("Grandeza parte " + this.parts[i].getOverall_greatness() + " Grandeza escena " + this.parts[i].getScenes()[j].getOverall_greatness());
                 }
             }
         }
