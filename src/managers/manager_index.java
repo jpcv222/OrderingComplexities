@@ -95,19 +95,44 @@ public class manager_index {
         if (arr[0].getGreatness() > arr[1].getGreatness()) {
             aux = arr[1];
             arr[1] = arr[0];
-            arr[0] = arr[1];
+            arr[0] = aux;
         }
         if (arr[1].getGreatness() > arr[2].getGreatness()) {
             aux = arr[2];
             arr[2] = arr[1];
-            arr[1] = arr[2];
+            arr[1] = aux;
         }
 
         if (arr[0].getGreatness() > arr[1].getGreatness()) {
             aux = arr[1];
             arr[1] = arr[0];
-            arr[0] = arr[1];
+            arr[0] = aux;
         }
+    }
+    
+    public Scene [] countingSortScenes(Scene [] arr, int max){
+        int [] conteo = new int[max+1];
+        Scene [] aux = new Scene[arr.length];
+        
+        for (int i = 0; i < conteo.length; i++) {
+            conteo[i] = 0;
+        }
+        
+        for (int i = 0; i < arr.length; i++) {
+            conteo[arr[i].getOverall_greatness()]++;
+        }
+        
+        for (int i = 2; i < conteo.length; i++){
+            conteo[i] = conteo[i] + conteo[i-1];
+        }
+        
+        for (int i = 0; i < arr.length; i++) {
+            aux[conteo[arr[i].getOverall_greatness()]] = arr[i];
+            conteo[arr[i].getOverall_greatness()]--;
+        }
+        
+        return aux;
+        
     }
 
     public void cuadraticSortScenes(Scene[] arr) {

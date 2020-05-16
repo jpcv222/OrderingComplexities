@@ -16,6 +16,10 @@ public class Scene {
 
     public Scene() {
     }
+    
+    public Scene(int overall_greatness) {
+        this.overall_greatness = overall_greatness;
+    }
 
     public int getOverall_greatness() {
         return overall_greatness;
