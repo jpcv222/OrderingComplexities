@@ -53,11 +53,11 @@ public class manager_index {
 
     public void zooSolution() {
         TInicio = System.currentTimeMillis(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
-        
+
         switch (this.complejidad) {
             case 0:
                 //Solución para complejidad n
-
+                linearComplexity();
                 break;
             case 1:
                 //Solución para complejidad nlogn
@@ -65,7 +65,6 @@ public class manager_index {
                 break;
             case 2:
                 //Solución para complejidad n^2
-                cuadraticComplexity();
                 break;
         }
 
@@ -75,10 +74,12 @@ public class manager_index {
 
     }
 
-    public void cuadraticComplexity() {
-
+    public void linearComplexity() {
+        int max = 0;
         //Ordenar apertura
-        cuadraticSortScenes(this.opening.getScenes());
+        max = getMaxOverallGreatnessScenes(this.opening.getScenes());
+        countingSortScenes(this.opening.getScenes(), max);
+
         //Ordenar m - 1 partes
         for (int i = 0; i < this.m - 1; i++) {
             for (int j = 0; j < this.k; j++) {
@@ -87,6 +88,16 @@ public class manager_index {
                 }
             }
         }
+    }
+
+    public int getMaxOverallGreatnessScenes(Scene[] arr) {
+        int max = arr[0].getOverall_greatness();
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].getOverall_greatness() > max) {
+                max = arr[i].getOverall_greatness();
+            }
+        }
+        return max;
     }
 
     public void sortAnimals(Animal[] arr) {
@@ -109,38 +120,30 @@ public class manager_index {
             arr[0] = aux;
         }
     }
-    
-    public Scene [] countingSortScenes(Scene [] arr, int max){
-        int [] conteo = new int[max+1];
-        Scene [] aux = new Scene[arr.length];
-        
+
+    public Scene[] countingSortScenes(Scene[] arr, int max) {
+        int[] conteo = new int[max + 1];
+        Scene[] aux = new Scene[arr.length];
+
         for (int i = 0; i < conteo.length; i++) {
             conteo[i] = 0;
         }
-        
+
         for (int i = 0; i < arr.length; i++) {
             conteo[arr[i].getOverall_greatness()]++;
         }
-        
-        for (int i = 2; i < conteo.length; i++){
-            conteo[i] = conteo[i] + conteo[i-1];
+
+        for (int i = 2; i < conteo.length; i++) {
+            conteo[i] = conteo[i] + conteo[i - 1];
         }
-        
+
         for (int i = 0; i < arr.length; i++) {
             aux[conteo[arr[i].getOverall_greatness()]] = arr[i];
             conteo[arr[i].getOverall_greatness()]--;
         }
-        
-        return aux;
-        
-    }
 
-    public void cuadraticSortScenes(Scene[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            //printAnimals(arr[i].getAnimales());
-            sortAnimals(arr[i].getAnimales());
-            //printAnimals(arr[i].getAnimales());
-        }
+        return aux;
+
     }
 
     public void printParts(Part[] arr) {
