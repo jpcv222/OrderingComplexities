@@ -69,9 +69,6 @@ public class manager_index {
                 break;
         }
 
-
-    public void cuadraticComplexity() {
-
         TFin = System.currentTimeMillis(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
         tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
         System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
@@ -82,17 +79,32 @@ public class manager_index {
     public void linearComplexity() {
         int max = 0;
         //Ordenar apertura
+         for (int j = 0; j < this.opening.getScenes().length; j++) {
+                for (int l = 0; l < 3; l++) {
+                    System.out.println("Apertura Escena " + j + " Animal " + this.opening.getScenes()[j].getAnimales()[l].getName());
+                }
+            }
         max = getMaxOverallGreatnessScenes(this.opening.getScenes());
-        countingSortScenes(this.opening.getScenes(), max);
-
+        for (int i = 0; i < this.opening.getScenes().length; i++) {
+            sortAnimals(this.opening.getScenes()[i].getAnimales());
+        }
+        this.opening.setScenes(countingSortScenes(this.opening.getScenes(), max));
+        
+        System.out.println("--- Ordenadas escenas y animales");
+        
+        for (int j = 0; j < this.opening.getScenes().length; j++) {
+                for (int l = 0; l < 3; l++) {
+                    System.out.println("Apertura Escena " + j + " Animal " + this.opening.getScenes()[j].getAnimales()[l].getName());
+                }
+            }
         //Ordenar m - 1 partes
-        for (int i = 0; i < this.m - 1; i++) {
+        /*for (int i = 0; i < this.m - 1; i++) {
             for (int j = 0; j < this.k; j++) {
                 for (int l = 0; l < 3; l++) {
                     System.out.println("Parte  " + i + " Escena " + j + " Animal " + this.parts[i].getScenes()[j].getAnimales()[l].getName());
                 }
             }
-        }
+        }*/
     }
 
     public int getMaxOverallGreatnessScenes(Scene[] arr) {
@@ -126,7 +138,7 @@ public class manager_index {
         }
     }
 
-    public Scene[] countingSortScenes(Scene[] arr, int max) {
+    public Scene [] countingSortScenes(Scene[] arr, int max) {
         int[] conteo = new int[max + 1];
         Scene[] aux = new Scene[arr.length];
 
@@ -143,7 +155,8 @@ public class manager_index {
         }
 
         for (int i = 0; i < arr.length; i++) {
-            aux[conteo[arr[i].getOverall_greatness()]] = arr[i];
+            aux[conteo[arr[i].getOverall_greatness()]-1] = arr[i];
+            //System.out.println("Aux pos "+ conteo[arr[i].getOverall_greatness()]);
             conteo[arr[i].getOverall_greatness()]--;
         }
 
@@ -269,12 +282,12 @@ public class manager_index {
             //this.apertura[i] = escena;
         }
 
-        for (int j = 0; j < this.opening.getScenes().length; j++) {
+       /* for (int j = 0; j < this.opening.getScenes().length; j++) {
             for (int l = 0; l < 3; l++) {
                 System.out.println("Apertura Escena " + j + " Animal " + this.opening.getScenes()[j].getAnimales()[l].getName());
                 System.out.println("Grandeza escena " + this.opening.getScenes()[j].getOverall_greatness());
             }
-        }
+        }*/
 
         //Var partes
         //this.partes = new Animal[this.m - 1][this.k][3];
@@ -337,7 +350,7 @@ public class manager_index {
             //this.partes[h] = animal_parte_aux;
         }
 
-        for (int i = 0; i < this.m - 1; i++) {
+        /*for (int i = 0; i < this.m - 1; i++) {
             for (int j = 0; j < this.k; j++) {
                 for (int l = 0; l < 3; l++) {
                     System.out.println("Parte  " + i + " Escena " + j + " Animal "
@@ -346,7 +359,7 @@ public class manager_index {
                     System.out.println("Grandeza parte " + this.parts[i].getOverall_greatness() + " Grandeza escena " + this.parts[i].getScenes()[j].getOverall_greatness());
                 }
             }
-        }
+        }*/
     }
 
     //Ordena la apertura con costo O(n2) INSERTION SORT
@@ -611,6 +624,7 @@ public class manager_index {
                     modal.success_message("Carga masiva de " + type + ".", "Éxito al cargar archivo.", "Los " + type + " fueron cargados con éxito.", null, null);
                     // logs.escribirAccessLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Los " + type + " fueron cargados con éxito.");                    
                     loadData((ArrayList<String>) response.get(1));
+                    zooSolution();
                     int n = opening.getScenes().length;
                     //printArray(opening);
                     //sort(opening, 0, n-1);
