@@ -14,6 +14,11 @@ public class Scene {
     int overall_greatness;
     public Animal [] animales =  new Animal[3];
 
+    public Scene(Animal [] animales, int overall_greatness) {
+        this.animales = animales;    
+        this.overall_greatness = overall_greatness;
+    }
+    
     public Scene() {
     }
 
