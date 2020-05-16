@@ -11,6 +11,7 @@ import classes.Part;
 import classes.Scene;
 import components.Dialogs;
 import java.util.ArrayList;
+import java.util.Arrays;
 import views.Index;
 
 /**
@@ -73,6 +74,7 @@ public class manager_index {
         System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
 
     }
+
 
     public void linearComplexity() {
         int max = 0;
@@ -158,7 +160,6 @@ public class manager_index {
         }
 
         return aux;
-
     }
 
     public void printParts(Part[] arr) {
@@ -304,6 +305,8 @@ public class manager_index {
 
             //Extrae como una cadena las escenas
             parte_aux = data_processing.split("},");
+            
+            greatness_part = 0;
 
             greatness_part = 0;
 
@@ -311,7 +314,6 @@ public class manager_index {
             this.parts[count_partes] = new Part(this.k);
 
             for (int i = 0; i < parte_aux.length; i++) {
-
                 greatness = 0;
                 //Extrae nombres de animales de cada escena en una variable auxiliar
                 escena_aux = parte_aux[i].split(",");
@@ -336,6 +338,8 @@ public class manager_index {
                 this.parts[count_partes].scenes[i].setOverall_greatness(greatness);
                 greatness_part += this.parts[count_partes].scenes[i].getOverall_greatness();
             }
+            
+            this.parts[count_partes].setOverall_greatness(greatness_part);
 
             this.parts[count_partes].setOverall_greatness(greatness_part);
 
@@ -350,12 +354,256 @@ public class manager_index {
                 for (int l = 0; l < 3; l++) {
                     System.out.println("Parte  " + i + " Escena " + j + " Animal "
                             + this.parts[i].getScenes()[j].getAnimales()[l].getName());
+                     System.out.println("Grandeza parte " + this.parts[i].getOverall_greatness() + " Grandeza escena " +this.parts[i].getScenes()[j].getOverall_greatness());
                     System.out.println("Grandeza parte " + this.parts[i].getOverall_greatness() + " Grandeza escena " + this.parts[i].getScenes()[j].getOverall_greatness());
                 }
             }
         }*/
     }
 
+    //Ordena la apertura con costo O(n2) INSERTION SORT
+    public void ordenaOpeningInsertion(Part part){
+        ArrayList<Scene> openingAux = new ArrayList<>();
+                
+        for (int i = 0; i < part.getScenes().length; i++) {
+            openingAux.add(part.getScenes()[i]);
+        }                                
+        for (int i = 1; i < part.getScenes().length; i++) { 
+            Scene key = new Scene(part.getScenes()[i].getAnimales(), part.getScenes()[i].getOverall_greatness());                    
+                 
+        int j = i - 1;
+        while (j >= 0 && openingAux.get(j).getOverall_greatness() > key.getOverall_greatness()) {
+            openingAux.get(j+1).setAnimales(openingAux.get(j).getAnimales());
+            openingAux.get(j+1).setOverall_greatness(openingAux.get(j).getOverall_greatness());
+
+            j = j - 1;
+        }
+        openingAux.get(j+1).setAnimales(key.getAnimales()); 
+        openingAux.get(j+1).setOverall_greatness(key.getOverall_greatness()); 
+       }               
+       
+        for (int i = 0; i < openingAux.size(); i++) {
+            part.getScenes()[i]=openingAux.get(i);
+        }                              
+    }
+    
+    //Ordena las partes por grandeza total de la parte, complejidad O(ncuadrado) - Insertion Sort
+    public void ordenaPartsInsertion(Part[] part){
+        ArrayList<Scene> openingAux = new ArrayList<>();
+                                                      
+        for (int i = 1; i < part.length; i++) { 
+            Part key = new Part(part[i].getOverall_greatness(), part[i].getScenes());                    
+                 
+        int j = i - 1;
+        while (j >= 0 && part[j].getOverall_greatness() > key.getOverall_greatness()) {
+            part[j+1].setOverall_greatness(part[j].getOverall_greatness());
+            part[j+1].setScenes(part[j].getScenes());
+
+            j = j - 1;
+        }
+        part[j+1].setOverall_greatness(key.getOverall_greatness()); 
+        part[j+1].setScenes(key.getScenes()); 
+       }                                                         
+    }
+    //Hallar el animal que aparece en mas escenas
+    public String repiteMas(Part part){
+        String dato = "", valorMayor = "", valorMenor = "";
+        String mensaje = "";
+        int repeticionesMayor = 0;
+        int repeticionesMenor = part.getScenes().length;
+        
+        for(int i=0; i<part.getScenes().length; i++){
+            for(int j=0; j<3; j++){
+                dato = part.getScenes()[i].getAnimales()[j].getName();                
+                if(repeticionesMayor < verifica(dato, part)){
+                    repeticionesMayor = verifica(dato, part);
+                    valorMayor = part.getScenes()[i].getAnimales()[j].getName();
+                }  
+                if(repeticionesMenor > verifica(dato, part)){
+                    repeticionesMenor = verifica(dato, part);                   
+                    valorMenor = part.getScenes()[i].getAnimales()[j].getName();                   
+                }    
+            }
+        }    
+        mensaje = "\nEl animal que participo en mas escenas dentro del espectaculo fue: \n"
+                  +valorMayor
+                           +"\ncon "+repeticionesMayor*2+" escenas.\n";
+        mensaje += "\nEl animal que menos participo en escenas dentro del espectaculo fue: \n"
+                   +valorMenor
+                           +"\ncon "+repeticionesMenor*2+" escenas.\n";
+        return  mensaje;        
+    }
+    public int verifica(String dato, Part part){
+        int x = 0;
+        
+        for (int i = 0; i < part.getScenes().length; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(dato.equals(part.getScenes()[i].getAnimales()[j].getName())){
+                x++;
+                }
+            }            
+        }
+        return x;
+    }
+    
+    //Ordena la parte por grandeza del animal llamando al metodo sortAnimals
+    public void ordenaGrandezaAnimal(Part part){
+        String cadena = "[|";
+        for (int i = 0; i < part.getScenes().length; i++) {
+            sortAnimals(part.getScenes()[i].getAnimales());
+        }
+        for (int i = 0; i < part.getScenes().length; i++) {
+            for (int j = 0; j < 3; j++) {
+                cadena+=part.getScenes()[i].getAnimales()[j].getName()+ " ";
+            }
+            cadena += "|";
+        }
+        cadena+="]";
+        System.out.println(cadena);
+    }
+    
+    //Ordenar apertura con cost o(nlogn) MERGUE SORT-----------------------------------
+    public void sort(Part part, int left, int right) {
+        if(left < right){
+          //Encuentra el punto medio del vector.
+          int middle = (left + right) / 2;
+
+          //Divide la primera y segunda mitad (llamada recursiva).
+          sort(part, left, middle);
+          sort(part, middle+1, right);
+
+          //Une las mitades.
+          OrdenaOpeningMerge(part, left, middle, right);
+        }
+    }
+    public void OrdenaOpeningMerge(Part part, int left, int middle, int right) {
+        //Encuentra el tamaño de los sub-vectores para unirlos.
+        int n1 = middle - left + 1;
+        int n2 = right - middle;
+
+        //Vectores temporales.
+        Scene leftArray[] = new Scene [n1];
+        Scene rightArray[] = new Scene [n2];
+
+        //Copia los datos a los arrays temporales.
+        for (int i=0; i < n1; i++) {
+          leftArray[i] = part.getScenes()[left+i];
+        }
+        for (int j=0; j < n2; j++) {
+          rightArray[j] = part.getScenes()[middle + j + 1];
+        }
+        /* Une los vectorestemporales. */
+
+        //Índices inicial del primer y segundo sub-vector.
+        int i = 0, j = 0;
+
+        //Índice inicial del sub-vector arr[].
+        int k = left;
+
+        //Ordenamiento.
+        while (i < n1 && j < n2) {
+          if (leftArray[i].getOverall_greatness() <= rightArray[j].getOverall_greatness()) {
+            part.getScenes()[k] = leftArray[i];
+            i++;
+          } else {
+              part.getScenes()[k] = rightArray[j];
+              j++;
+          }
+          k++;
+        }//Fin del while.
+
+        /* Si quedan elementos por ordenar */
+        //Copiar los elementos restantes de leftArray[].
+        while (i < n1) {
+          part.getScenes()[k] = leftArray[i];
+          i++;
+          k++;
+        }
+        //Copiar los elementos restantes de rightArray[].
+        while (j < n2) {
+          part.getScenes()[k] = rightArray[j];
+          j++;
+          k++;
+        }
+    }
+    public void printArray(Part part) {
+        String cadena = "[|";
+        for (int i = 0; i < part.getScenes().length; i++) {                      
+            for (int j = 0; j < 3; j++) {
+                cadena+=part.getScenes()[i].getAnimales()[j].getName()+ " ";
+            }            
+            cadena+="|";
+        }
+        cadena+="]";
+        System.out.println(cadena);
+    }
+    //-------------------------------------------------------------------------
+    
+    //Escena de mayor y menor gradeza con complejidad Constante
+    public void mayorYmenorGrandeza1(){
+        String mensaje = "";
+        mensaje += "La escena de menor grandeza total fue la escena [ "; 
+
+        for (int i = 0; i < 3; i++) {
+             mensaje += opening.getScenes()[0].getAnimales()[i].getName()+" ";
+         }  
+        mensaje+="]";
+
+        mensaje += "\n\nLa escena de mayor grandeza total fue la escena [ ";
+        for (int i = 0; i < 3; i++) {
+            mensaje += opening.getScenes()[(opening.getScenes().length-1)].getAnimales()[i].getName()+" ";
+        } 
+        mensaje+="]";
+        System.out.println(mensaje);
+    }
+            
+    public String mayorYmenorGrandeza2(){
+        String mensaje = "";                                   
+        int mayor = opening.getScenes()[0].getOverall_greatness();
+        int menor = opening.getScenes()[0].getOverall_greatness();
+        int posMayor = 0, posMenor = 0;                  
+            
+        for(int i=0; i<opening.getScenes().length; i++){
+            if(opening.getScenes()[i].getOverall_greatness()>mayor){ // 
+                mayor = opening.getScenes()[i].getOverall_greatness();  
+                posMayor = i;
+            }
+            if(opening.getScenes()[i].getOverall_greatness()<menor){ // 
+                menor = opening.getScenes()[i].getOverall_greatness();  
+                posMenor = i;
+            }
+        }         
+        mensaje += "\nLa escena de menor grandeza total fue la escena [ ";        
+        for (int j = 0; j < 3; j++) {
+            mensaje += opening.getScenes()[posMenor].getAnimales()[j].getName()+" ";
+        }   
+        mensaje+="]";
+                
+        mensaje += "\n\nLa escena de mayor grandeza total fue la escena [ ";
+                
+        for (int j = 0; j < 3; j++) {
+            mensaje += opening.getScenes()[posMayor].getAnimales()[j].getName()+" ";
+        }   
+        mensaje+="]";
+            
+        return mensaje;
+    }
+    //Halla el promedio de grandeza de todas las escenas
+    public String promedioGrandeza(Part part){
+        String mensaje = "";        
+        double promedio = 0, sumaTotal = 0, totalElementos = part.getScenes().length;
+        
+        for(int i = 0; i<part.getScenes().length; i++){                
+            sumaTotal += part.getScenes()[i].getOverall_greatness();
+        }       
+        promedio = sumaTotal/totalElementos;
+        
+        mensaje = "\nEl promedio de grandeza de todo el espectaculo fue de "
+                  +promedio+"\n"; 
+            
+        return mensaje;
+    }
+    
     public Animal getAnimalByName(String name) {
         Animal animal = null;
         for (int i = 0; i < this.animales.length; i++) {
@@ -373,9 +621,28 @@ public class manager_index {
             switch (response.get(0).toString()) {
                 case "success":
                     modal.success_message("Carga masiva de " + type + ".", "Éxito al cargar archivo.", "Los " + type + " fueron cargados con éxito.", null, null);
-                    // logs.escribirAccessLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Los " + type + " fueron cargados con éxito.");
+                    // logs.escribirAccessLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Los " + type + " fueron cargados con éxito.");                    
                     loadData((ArrayList<String>) response.get(1));
                     zooSolution();
+                    int n = opening.getScenes().length;
+                    //printArray(opening);
+                    //sort(opening, 0, n-1);
+                    //printArray(opening);
+                    System.out.println("\nEl orden en el que se debe presentar el espectaculo es");
+                    System.out.println("\nApertura ordenada");
+                    ordenaOpeningInsertion(opening);
+                    ordenaGrandezaAnimal(opening);
+                                        
+                    ordenaPartsInsertion(parts);
+                    System.out.println("\nPartes Ordenada: ");
+                    for (int i = 0; i < parts.length; i++) {
+                        ordenaOpeningInsertion(parts[i]);
+                        ordenaGrandezaAnimal(parts[i]);
+                    }                                                          
+                    System.out.println(repiteMas(opening));
+                    mayorYmenorGrandeza1();
+                    System.out.println(promedioGrandeza(opening));                                        
+                    //zooSolution();
                     break;
                 case "error.noclassdeffounderror":
                     modal.error_message("Carga masiva de " + type + ".", "Error fatal.", "Librería de lectura de archivo extraviada.", "Comuníquese con el área de sistemas.", null);

@@ -13,6 +13,11 @@ public class Part {
     int overall_greatness;
     public Scene [] scenes ;
 
+    public Part(int overall_greatness, Scene[] scenes) {
+        this.overall_greatness = overall_greatness;
+        this.scenes = scenes;
+    }
+    
     public Part(int k) {
         this.scenes = new Scene[k];
     }
