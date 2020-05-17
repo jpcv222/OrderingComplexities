@@ -140,14 +140,18 @@ public class manager_index {
 
     public Scene [] countingSortScenes(Scene[] arr, int max) {
         int[] conteo = new int[max + 1];
+        int pos;
         Scene[] aux = new Scene[arr.length];
+        ArrayList<ArrayList<Scene>> count_aux = new  ArrayList<ArrayList<Scene>>();
 
         for (int i = 0; i < conteo.length; i++) {
             conteo[i] = 0;
+            count_aux.add(new ArrayList<>());
         }
 
         for (int i = 0; i < arr.length; i++) {
             conteo[arr[i].getOverall_greatness()]++;
+            count_aux.get(arr[i].getOverall_greatness()).add(arr[i]);
         }
 
         for (int i = 2; i < conteo.length; i++) {
@@ -155,12 +159,38 @@ public class manager_index {
         }
 
         for (int i = 0; i < arr.length; i++) {
-            aux[conteo[arr[i].getOverall_greatness()]-1] = arr[i];
+            pos = getMaxRepeatedGreatness(count_aux.get(arr[i].getOverall_greatness()));
+            aux[conteo[arr[i].getOverall_greatness()]-1] = count_aux.get(arr[i].getOverall_greatness()).get(pos);
             //System.out.println("Aux pos "+ conteo[arr[i].getOverall_greatness()]);
+            count_aux.get(arr[i].getOverall_greatness()).remove(pos);
             conteo[arr[i].getOverall_greatness()]--;
         }
 
         return aux;
+    }
+    
+    public int getMaxRepeatedGreatness(ArrayList<Scene> arreglo){
+        Animal[] aux;
+        int grandAux;
+        int posicion = 0;
+        //asumo que la primera escena del arreglo es la que tiene el animal de mayor grandeza
+        Animal[] mayorGrandeza = arreglo.get(0).getAnimales();
+        int maxGreat = mayorGrandeza[2].getGreatness();
+        
+        int grandeza;
+        
+        //for inicia desde 1 porque ya asumi que la escena de la posicion 0 es la que tiene animal con mayor grandeza
+        for(int j = 1; j < arreglo.size(); j++){
+            aux = arreglo.get(j).getAnimales();
+            grandAux = aux[2].getGreatness();
+            
+            if(grandAux > maxGreat){
+                maxGreat = grandAux;
+                posicion = j;
+            }
+            
+        }
+        return posicion;
     }
 
     public void printParts(Part[] arr) {

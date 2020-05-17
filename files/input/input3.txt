@@ -1,0 +1,9 @@
+n=9
+m=4
+k=3
+animales = {flamenco, guacamayo, babilla, hiena, puma, pitón, tucán, osohormiguero, tortuga};
+grandezas = {3, 2, 7, 6, 9, 5, 1, 8, 4};
+apertura = {{pitón, guacamayo, tortuga}, {flamenco, tucán, hiena}, {puma, babilla, tortuga}, {osohormiguero, puma, pitón}, {guacamayo, flamenco, tucán}, {tucán, guacamayo, pitón}, {flamenco, tucán, tortuga}, {pitón, flamenco, guacamayo}, {tortuga, tucán, pitón}};
+parte = {{pitón, flamenco, guacamayo},{osohormiguero, puma, pitón}, {flamenco, tucán, hiena}};
+parte = {{pitón, guacamayo, tortuga}, {guacamayo, flamenco, tucán}, {tucán, guacamayo, pitón}};
+parte = {{puma, babilla, tortuga}, {flamenco, tucán, tortuga}, {tortuga, tucán, pitón}};
