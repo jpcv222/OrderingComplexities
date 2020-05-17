@@ -55,31 +55,47 @@ public class manager_index {
     public void zooSolution() {
         TInicio = System.currentTimeMillis(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
 
-        sortOpening();
-        sortParts();
-
-        //Ordenar animales de m-1 partes
+        //Ordenar escenas dentro de apertura
+        sortOpening(); //O(n)
+        
+        //Ordenar esccenas dentro de m-1 partes
+        sortParts(); //O(n)
+        
+        // Ordenar m-1 partes del evento
         switch (this.complejidad) {
             case 0:
                 //Solución para complejidad n
-                linearComplexity();
+                linearComplexity(); //O(n)
                 break;
             case 1:
                 //Solución para complejidad nlogn
-                nlognComplexity();
+                nlognComplexity(); //O(nlogn)
                 break;
             case 2:
                 //Solución para complejidad n^2
-                cuadraticComplexity();
+                cuadraticComplexity(); //O(n^2)
                 break;
         }
+        
+        // Animal que más participó en escenas del espectáculo
+        
+        // Participaciones de animal que más participó en escenas del espectáculo
+        
+        // Animal que menos participó en escenas del espectáculo
+        
+        // Participaciones de animal que menos participó en escenas del espectáculo
+        
+        // Escena de mayor grandeza total
+        
+        // Escena de menor grandeza total
+        
+        // Promedio de grandeza de todo el espectáculo
 
         TFin = System.currentTimeMillis(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
         tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
         System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
 
         printResults();
-
     }
 
     public void sortOpening() {
