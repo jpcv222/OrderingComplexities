@@ -33,6 +33,7 @@ public class manager_index {
     Part opening;
     private int complejidad;
     long TInicio, TFin, tiempo;
+    ArrayList<String> results;
 
     public int getComplejidad() {
         return complejidad;
@@ -53,6 +54,7 @@ public class manager_index {
     }
 
     public void zooSolution() {
+        this.results = new ArrayList<>();
         TInicio = System.currentTimeMillis(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
 
         //Ordenar escenas dentro de apertura
@@ -77,6 +79,12 @@ public class manager_index {
                 break;
         }
         
+        // Orden del espectáculo
+        results.add("El orden en del espectáculo debe ser:");
+        results.add("Apertura: "+printPart(this.opening.getScenes())); //O(n)
+        for (int i = 0; i < this.parts.length; i++) { //O(n)
+            results.add("Parte "+ (i+1) + ": "+printPart(this.parts[i].getScenes())); //O(n)
+        }
         // Animal que más participó en escenas del espectáculo
         
         // Participaciones de animal que más participó en escenas del espectáculo
@@ -96,6 +104,28 @@ public class manager_index {
         System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
 
         printResults();
+    }
+    
+    public String printPart(Scene [] arr){
+        //Complejidad O(n)
+        String result = "[";
+        for (int i = 0; i < arr.length; i++) {
+            result += "(";
+            for (int j = 0; j < 3; j++) { //O(k)
+                result += arr[i].getAnimales()[j].getName();
+                if(j < 2){
+                    result += ",";
+                }
+            }
+             result += ")";
+             if(i < arr.length - 1){
+                    result += ",";
+                }
+            
+        }
+        result += "]";
+        
+        return result;
     }
 
     public void sortOpening() {
@@ -122,12 +152,14 @@ public class manager_index {
         //Ordenar escenas de m-1 partes
         for (int i = 0; i < this.k; i++) {
             max = getMaxOverallGreatnessScenes(this.parts[i].getScenes()); //O(n)
-            this.parts[i].setScenes(countingSortScenes(this.opening.getScenes(), max)); //O(n)
+            this.parts[i].setScenes(countingSortScenes(this.parts[i].getScenes(), max)); //O(n)
         }
     }
 
     public void printResults() {
-
+        for (int i = 0; i < this.results.size(); i++) {
+               System.out.println(this.results.get(i));
+        }
     }
 
     public void cuadraticComplexity() {
@@ -141,7 +173,7 @@ public class manager_index {
     public void linearComplexity() {
 
         //Ordenar apertura
-        for (int j = 0; j < this.opening.getScenes().length; j++) {
+        /*for (int j = 0; j < this.opening.getScenes().length; j++) {
             for (int l = 0; l < 3; l++) {
                 System.out.println("Apertura Escena " + j + " Animal " + this.opening.getScenes()[j].getAnimales()[l].getName());
             }
@@ -155,7 +187,7 @@ public class manager_index {
             }
         }
         //Ordenar m - 1 partes
-        /*for (int i = 0; i < this.m - 1; i++) {
+        for (int i = 0; i < this.m - 1; i++) {
             for (int j = 0; j < this.k; j++) {
                 for (int l = 0; l < 3; l++) {
                     System.out.println("Parte  " + i + " Escena " + j + " Animal " + this.parts[i].getScenes()[j].getAnimales()[l].getName());
