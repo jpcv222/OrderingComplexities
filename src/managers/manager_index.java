@@ -157,9 +157,7 @@ public class manager_index {
     }
 
     public void printResults() {
-        for (int i = 0; i < this.results.size(); i++) {
-               System.out.println(this.results.get(i));
-        }
+        this.file.createFile(this.results);
     }
 
     public void cuadraticComplexity() {
