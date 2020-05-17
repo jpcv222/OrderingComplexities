@@ -394,7 +394,10 @@ public class manager_index {
         String dato = "", valorMayor = "", valorMenor = "";
         String mensaje = "";
         int repeticionesMayor = 0;
-        int repeticionesMenor = part.getScenes().length;
+        int repeticionesMenor = part.getScenes().length;  
+        
+        ArrayList<String> repiteMasAux = new ArrayList<>();
+        ArrayList<String> repiteMenosAux = new ArrayList<>();
         
         for(int i=0; i<part.getScenes().length; i++){
             for(int j=0; j<3; j++){
@@ -409,14 +412,63 @@ public class manager_index {
                 }    
             }
         }    
+        repiteMasAux.add(valorMayor);
+        repiteMenosAux.add(valorMenor);
+        
+        for(int i=0; i<part.getScenes().length; i++){
+            for (int j = 0; j < 3; j++) {
+                dato=part.getScenes()[i].getAnimales()[j].getName();
+            
+                if(repeticionesMayor==verifica(dato, part) && dato != valorMayor){
+                    repiteMasAux.add(part.getScenes()[i].getAnimales()[j].getName());               
+                }
+            }
+        }    
+        for(int i=0; i<part.getScenes().length; i++){
+            for (int j = 0; j < 3; j++) {
+                dato=part.getScenes()[i].getAnimales()[j].getName();
+            
+                if(repeticionesMenor==verifica(dato, part) && dato != valorMenor){
+                    repiteMenosAux.add(part.getScenes()[i].getAnimales()[j].getName());               
+                }
+            }
+        }         
+        for (int i = 0; i < repiteMasAux.size(); i++) {
+            for (int j = 0; j < repiteMasAux.size()-1; j++) {
+                if(i!=j){                    
+                    if(repiteMasAux.get(i).equals(repiteMasAux.get(j))){
+                        repiteMasAux.remove(i);
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < repiteMenosAux.size(); i++) {
+            for (int j = 0; j < repiteMenosAux.size()-1; j++) {
+                if(i!=j){                    
+                    if(repiteMenosAux.get(i).equals(repiteMenosAux.get(j))){
+                        repiteMenosAux.remove(i);
+                    }
+                }
+            }
+        }
+        String repiteMas ="";
+        String repiteMenos ="";
+        for (int i = 0; i < repiteMasAux.size(); i++) {
+            repiteMas+=repiteMasAux.get(i)+"\n";
+        }
+        for (int i = 0; i < repiteMenosAux.size(); i++) {
+            repiteMenos+=repiteMenosAux.get(i)+"\n";
+        }
+        
         mensaje = "\nEl animal que participo en mas escenas dentro del espectaculo fue: \n"
-                  +valorMayor
-                           +"\ncon "+repeticionesMayor*2+" escenas.\n";
+                  +repiteMas
+                           +"con "+repeticionesMayor*2+" escenas.\n";
         mensaje += "\nEl animal que menos participo en escenas dentro del espectaculo fue: \n"
-                   +valorMenor
-                           +"\ncon "+repeticionesMenor*2+" escenas.\n";
+                   +repiteMenos
+                           +"con "+repeticionesMenor*2+" escenas.\n";
         return  mensaje;        
     }
+    
     public int verifica(String dato, Part part){
         int x = 0;
         
