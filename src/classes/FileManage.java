@@ -6,7 +6,10 @@
 package classes;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JFileChooser;
 
 /**
@@ -17,6 +20,8 @@ public class FileManage {
 
     String ruta;
     String file_content;
+    String directorioRaiz = System.getProperty("user.dir");
+    String outputDir = directorioRaiz + "/files/output/";
 
     public FileManage() {
         ruta = null;
@@ -63,7 +68,7 @@ public class FileManage {
         return response;
     }
 
-    public static ArrayList <Object> readFile(String url_file) {
+    public static ArrayList<Object> readFile(String url_file) {
         ArrayList<Object> result = new ArrayList<>();
         String response = "error.unknow";
         ArrayList<String> content = new ArrayList<>();
@@ -83,9 +88,9 @@ public class FileManage {
             // Lectura del fichero
             String linea;
             while ((linea = br.readLine()) != null) {
-               content.add(linea);
+                content.add(linea);
             }
-            
+
             response = "success";
         } catch (IOException ex) {
             //logs.escribirExceptionLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// " + ex.getMessage() + " " + ex.toString());
@@ -113,7 +118,37 @@ public class FileManage {
         return result;
 
     }
-    
-    
+
+    public void createFile(ArrayList<String> cadena) {
+        FileWriter flwriter = null;
+        String ruta;
+        Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
+        ruta = this.outputDir + "zooResults-" + hourdateFormat.format(date) + ".txt";
+        try {
+
+            flwriter = new FileWriter(ruta);
+
+            BufferedWriter bfwriter = new BufferedWriter(flwriter);
+            for (int i = 0; i < cadena.size(); i++) {
+                bfwriter.write(cadena.get(i));
+                bfwriter.newLine();
+            }
+
+            bfwriter.close();
+            System.out.println("Archivo creado con exito");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (flwriter != null) {
+                try {//cierra el flujo principal
+                    flwriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 }
