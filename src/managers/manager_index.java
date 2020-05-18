@@ -225,6 +225,38 @@ public class manager_index {
             arr[0] = aux;
         }
     }
+    
+    public Part[] countingSortParts(Part[] arr, int max) {
+        //Complejidad O(n)
+        int[] conteo = new int[max + 1];
+        int pos;
+        Part[] aux = new Part[arr.length];
+        ArrayList<ArrayList<Part>> count_aux = new ArrayList<ArrayList<Part>>();
+
+        for (int i = 0; i < conteo.length; i++) {
+            conteo[i] = 0;
+            count_aux.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            conteo[arr[i].getOverall_greatness()]++;
+            count_aux.get(arr[i].getOverall_greatness()).add(arr[i]);
+        }
+
+        for (int i = 2; i < conteo.length; i++) {
+            conteo[i] = conteo[i] + conteo[i - 1];
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            pos = getMaxRepeatedGreatnessPart(count_aux.get(arr[i].getOverall_greatness()));
+            aux[conteo[arr[i].getOverall_greatness()] - 1] = count_aux.get(arr[i].getOverall_greatness()).get(pos);
+            //System.out.println("Aux pos "+ conteo[arr[i].getOverall_greatness()]);
+            count_aux.get(arr[i].getOverall_greatness()).remove(pos);
+            conteo[arr[i].getOverall_greatness()]--;
+        }
+
+        return aux;
+    }
 
     public Scene[] countingSortScenes(Scene[] arr, int max) {
         //Complejidad O(n)
@@ -248,7 +280,7 @@ public class manager_index {
         }
 
         for (int i = 0; i < arr.length; i++) {
-            pos = getMaxRepeatedGreatness(count_aux.get(arr[i].getOverall_greatness()));
+            pos = getMaxRepeatedGreatnessScene(count_aux.get(arr[i].getOverall_greatness()));
             aux[conteo[arr[i].getOverall_greatness()] - 1] = count_aux.get(arr[i].getOverall_greatness()).get(pos);
             //System.out.println("Aux pos "+ conteo[arr[i].getOverall_greatness()]);
             count_aux.get(arr[i].getOverall_greatness()).remove(pos);
@@ -257,8 +289,32 @@ public class manager_index {
 
         return aux;
     }
+    
+    public int getMaxRepeatedGreatnessPart(ArrayList<Part> arreglo) {
+        Scene[] aux;
+        int grandAux;
+        int posicion = 0;
+        //asumo que la primera escena del arreglo es la que tiene el animal de mayor grandeza
+        Scene[] mayorGrandeza = arreglo.get(0).getScenes();
+        int maxGreat = mayorGrandeza[2].getOverall_greatness();
 
-    public int getMaxRepeatedGreatness(ArrayList<Scene> arreglo) {
+        int grandeza;
+
+        //for inicia desde 1 porque ya asumi que la escena de la posicion 0 es la que tiene animal con mayor grandeza
+        for (int j = 1; j < arreglo.size(); j++) {
+            aux = arreglo.get(j).getScenes();
+            grandAux = aux[aux.length - 1].getOverall_greatness();
+
+            if (grandAux > maxGreat) {
+                maxGreat = grandAux;
+                posicion = j;
+            }
+
+        }
+        return posicion;
+    }
+
+    public int getMaxRepeatedGreatnessScene(ArrayList<Scene> arreglo) {
         Animal[] aux;
         int grandAux;
         int posicion = 0;
