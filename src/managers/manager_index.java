@@ -78,17 +78,19 @@ public class manager_index {
                 cuadraticComplexity(); //O(n^2)
                 break;
         }
+
         // Orden del espectáculo
         results.add("El orden en del espectáculo debe ser:");
         results.add("Apertura: " + printPart(this.opening.getScenes())); //O(n)        
         for (int i = 0; i < this.parts.length; i++) { //O(n)
             results.add("Parte " + (i + 1) + ": " + printPart(this.parts[i].getScenes())); //O(n)
         }
+
         // Animal que más participó en escenas del espectáculo           
         // Participaciones de animal que más participó en escenas del espectáculo        
         // Animal que menos participó en escenas del espectáculo        
         // Participaciones de animal que menos participó en escenas del espectáculo
-        results.add(repiteMasYmenos(opening)); //O(n^2)
+        //-------------------------------------------------------------------------------results.add(repiteMasYmenos(opening)); //O(n^2)
         results.add(repiteMasYmenos2(opening)); //O(n + k)
         // Escena de mayor grandeza total        
         // Escena de menor grandeza total
@@ -163,7 +165,22 @@ public class manager_index {
     }
 
     public void printResults() {
-        this.file.createFile(this.results);
+        String [] response = this.file.createFile(this.results).split(";");
+        switch (response[0]) {
+            case "success":
+                modal.success_message("Respuesta del programa.", "Éxito al crear archivo.", "Revise su respesta en capeta","/OrderingComplexities/files/output/","Archivo: " + response[1]);
+                // logs.escribirAccessLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Los " + type + " fueron cargados con éxito.");                    
+                break;
+            case "error":
+                modal.error_message("Error al crear el archivo.", "Error fatal.", "Comuníquese con el área de sistemas.",null, null);
+                // logs.escribirErrorLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Librería para carga CSV no encontrada.");
+                break;
+
+            default:
+                //  logs.escribirErrorLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Respuesta a petición inválida.");
+                break;
+        }
+        
     }
 
     public void nlognComplexity() {
@@ -173,7 +190,7 @@ public class manager_index {
     public void linearComplexity() {
         int max;
         //Ordenar m - 1 partes
-        for (int i = 0; i < this.m - 1; i++) {
+        for (int i = 0; i < this.m - 1; i++) { //O(60)
             max = getMaxOverallGreatnessParts(this.parts); //O(n)
             this.parts = countingSortParts(this.parts, max); //O(n)
         }
@@ -358,7 +375,7 @@ public class manager_index {
 
     public void readTXTFile() {
         ArrayList<Object> response = FileManage.readFile(file.getRuta());
-        resultUpload(response, "usuarios");
+        resultUpload(response, "espectáculo");
     }
 
     public void loadData(ArrayList<String> data) {
@@ -662,7 +679,6 @@ public class manager_index {
             }
         }
 
-
         return mensaje;
     }
 
@@ -905,7 +921,7 @@ public class manager_index {
         try {
             switch (response.get(0).toString()) {
                 case "success":
-                    modal.success_message("Carga masiva de " + type + ".", "Éxito al cargar archivo.", "Los " + type + " fueron cargados con éxito.", null, null);
+                    modal.success_message("Carga de " + type + ".", "Éxito al cargar archivo.", "El " + type + " fue cargado con éxito.", null, null);
                     // logs.escribirAccessLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Los " + type + " fueron cargados con éxito.");                    
                     loadData((ArrayList<String>) response.get(1));
                     zooSolution();
@@ -930,15 +946,15 @@ public class manager_index {
                     //zooSolution();
                     break;
                 case "error.noclassdeffounderror":
-                    modal.error_message("Carga masiva de " + type + ".", "Error fatal.", "Librería de lectura de archivo extraviada.", "Comuníquese con el área de sistemas.", null);
+                    modal.error_message("Carga de " + type + ".", "Error fatal.", "Librería de lectura de archivo extraviada.", "Comuníquese con el área de sistemas.", null);
                     // logs.escribirErrorLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Librería para carga CSV no encontrada.");
                     break;
                 case "error.nullpointerexception":
-                    modal.error_message("Carga masiva de " + type + ".", "Lectura archivo CSV errónea.", "El archivo CSV es null.", null, null);
+                    modal.error_message("Carga de " + type + ".", "Lectura archivo TXT errónea.", "El archivo CSV es null.", null, null);
                     // logs.escribirErrorLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Archivo CSV erróneo.");
                     break;
                 case "error.unknow":
-                    modal.error_message("Carga masiva de " + type + ".", "Lectura archivo CSV errónea.", "Error desconocido.", "Comuníquese con el área de sistemas.", null);
+                    modal.error_message("Carga de " + type + ".", "Lectura archivo TXT errónea.", "Error desconocido.", "Comuníquese con el área de sistemas.", null);
                     // logs.escribirErrorLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Error desconocidoa.");
                     break;
                 default:

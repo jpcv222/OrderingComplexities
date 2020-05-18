@@ -119,12 +119,14 @@ public class FileManage {
 
     }
 
-    public void createFile(ArrayList<String> cadena) {
+    public String createFile(ArrayList<String> cadena) {
+        String response = "error.unknow";
         FileWriter flwriter = null;
         String ruta;
         Date date = new Date();
         DateFormat hourdateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
-        ruta = this.outputDir + "zooResults-" + hourdateFormat.format(date) + ".txt";
+        String name_file = "zooResults-" + hourdateFormat.format(date) + ".txt";
+        ruta = this.outputDir + name_file;
         try {
 
             flwriter = new FileWriter(ruta);
@@ -136,9 +138,10 @@ public class FileManage {
             }
 
             bfwriter.close();
-            System.out.println("Archivo creado con exito");
+            response = "success;"+name_file;
 
         } catch (IOException e) {
+            response = "error";
             e.printStackTrace();
         } finally {
             if (flwriter != null) {
@@ -149,6 +152,8 @@ public class FileManage {
                 }
             }
         }
+        
+        return response;
     }
 
 }
