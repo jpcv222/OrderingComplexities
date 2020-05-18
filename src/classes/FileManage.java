@@ -128,7 +128,6 @@ public class FileManage {
         String name_file = "zooResults-" + hourdateFormat.format(date) + ".txt";
         ruta = this.outputDir + name_file;
         try {
-
             flwriter = new FileWriter(ruta);
 
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
