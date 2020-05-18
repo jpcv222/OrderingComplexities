@@ -1,9 +1,9 @@
 n=9
 m=4
 k=3
-animales = {flamenco, guacamayo, babilla, hiena, puma, pit髇, tuc醤, osohormiguero, tortuga};
+animales = {flamenco, guacamayo, babilla, hiena, puma, pit贸n, tuc谩n, osohormiguero, tortuga};
 grandezas = {3, 2, 7, 6, 9, 5, 1, 8, 4};
-apertura = {{pit髇, guacamayo, tortuga}, {flamenco, tuc醤, hiena}, {puma, babilla, tortuga}, {osohormiguero, puma, pit髇}, {guacamayo, flamenco, tuc醤}, {tuc醤, guacamayo, pit髇}, {flamenco, tuc醤, tortuga}, {pit髇, flamenco, guacamayo}, {tortuga, tuc醤, pit髇}};
-parte = {{pit髇, flamenco, guacamayo},{osohormiguero, puma, pit髇}, {flamenco, tuc醤, hiena}};
-parte = {{pit髇, guacamayo, tortuga}, {guacamayo, flamenco, tuc醤}, {tuc醤, guacamayo, pit髇}};
-parte = {{puma, babilla, tortuga}, {flamenco, tuc醤, tortuga}, {tortuga, tuc醤, pit髇}};
+apertura = {{pit贸n, guacamayo, tortuga}, {flamenco, tuc谩n, hiena}, {puma, babilla, tortuga}, {osohormiguero, puma, pit贸n}, {guacamayo, flamenco, tuc谩n}, {tuc谩n, guacamayo, pit贸n}, {flamenco, tuc谩n, tortuga}, {pit贸n, flamenco, guacamayo}, {tortuga, tuc谩n, pit贸n}};
+parte = {{pit贸n, flamenco, guacamayo},{osohormiguero, puma, pit贸n}, {flamenco, tuc谩n, hiena}};
+parte = {{pit贸n, guacamayo, tortuga}, {guacamayo, flamenco, tuc谩n}, {tuc谩n, guacamayo, pit贸n}};
+parte = {{puma, babilla, tortuga}, {flamenco, tuc谩n, tortuga}, {tortuga, tuc谩n, pit贸n}};
