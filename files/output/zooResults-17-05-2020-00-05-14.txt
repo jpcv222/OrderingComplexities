@@ -1,4 +1,0 @@
-El orden en del espectáculo debe ser:
-Apertura: [(ciempies,libelula,gato),(ciempies,gato,tapir),(gato,perro,tapir),(perro,tapir,nutria)]
-Parte 1: [(ciempies,gato,tapir),(perro,tapir,nutria)]
-Parte 2: [(ciempies,libelula,gato),(gato,perro,tapir)]
