@@ -59,10 +59,10 @@ public class manager_index {
 
         //Ordenar escenas dentro de apertura
         sortOpening(); //O(n)
-        
+
         //Ordenar esccenas dentro de m-1 partes
         sortParts(); //O(n)
-        
+
         // Ordenar m-1 partes del evento
         switch (this.complejidad) {
             case 0:
@@ -80,54 +80,57 @@ public class manager_index {
         }
         // Orden del espectáculo
         results.add("El orden en del espectáculo debe ser:");
-        results.add("Apertura: "+printPart(this.opening.getScenes())); //O(n)        
+        results.add("Apertura: " + printPart(this.opening.getScenes())); //O(n)        
         for (int i = 0; i < this.parts.length; i++) { //O(n)
-            results.add("Parte "+ (i+1) + ": "+printPart(this.parts[i].getScenes())); //O(n)
+            results.add("Parte " + (i + 1) + ": " + printPart(this.parts[i].getScenes())); //O(n)
         }
         // Animal que más participó en escenas del espectáculo           
         // Participaciones de animal que más participó en escenas del espectáculo        
         // Animal que menos participó en escenas del espectáculo        
         // Participaciones de animal que menos participó en escenas del espectáculo
-        results.add(repiteMasYmenos(opening));     
+        results.add(repiteMasYmenos(opening)); //O(n^2)
+        results.add(repiteMasYmenos2(opening)); //O(n + k)
         // Escena de mayor grandeza total        
         // Escena de menor grandeza total
-        results.add(mayorYmenorGrandeza());
+        results.add(mayorYmenorGrandeza()); //O(n)
         // Promedio de grandeza de todo el espectáculo
-        results.add(promedioGrandeza(opening));
-        
+        results.add(promedioGrandeza(opening)); //O(n)
+
+        TFin = System.currentTimeMillis(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
+        tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
+        results.add("Tiempo de ejecución en milisegundos: " + tiempo);
         printResults();
 
     }
 
-
-    public void cuadraticComplexity(){            
+    public void cuadraticComplexity() {
         TFin = System.currentTimeMillis(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
         tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
         System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
-        
+
         ordenaPartsInsertion(parts);
-       
+
     }
-    
-    public String printPart(Scene [] arr){
+
+    public String printPart(Scene[] arr) {
         //Complejidad O(n)
         String result = "[";
         for (int i = 0; i < arr.length; i++) {
             result += "(";
             for (int j = 0; j < 3; j++) { //O(k)
                 result += arr[i].getAnimales()[j].getName();
-                if(j < 2){
+                if (j < 2) {
                     result += ",";
                 }
             }
-             result += ")";
-             if(i < arr.length - 1){
-                    result += ",";
-                }
-            
+            result += ")";
+            if (i < arr.length - 1) {
+                result += ",";
+            }
+
         }
         result += "]";
-        
+
         return result;
     }
 
@@ -167,34 +170,27 @@ public class manager_index {
 
     }
 
-
     public void linearComplexity() {
-
-        //Ordenar apertura
-        /*for (int j = 0; j < this.opening.getScenes().length; j++) {
-            for (int l = 0; l < 3; l++) {
-                System.out.println("Apertura Escena " + j + " Animal " + this.opening.getScenes()[j].getAnimales()[l].getName());
-            }
-        }
-
-        System.out.println("--- Ordenadas escenas y animales");
-
-        for (int j = 0; j < this.opening.getScenes().length; j++) {
-            for (int l = 0; l < 3; l++) {
-                System.out.println("Apertura Escena " + j + " Animal " + this.opening.getScenes()[j].getAnimales()[l].getName());
-            }
-        }
+        int max;
         //Ordenar m - 1 partes
         for (int i = 0; i < this.m - 1; i++) {
-            for (int j = 0; j < this.k; j++) {
-                for (int l = 0; l < 3; l++) {
-                    System.out.println("Parte  " + i + " Escena " + j + " Animal " + this.parts[i].getScenes()[j].getAnimales()[l].getName());
-                }
-            }
-        }*/
+            max = getMaxOverallGreatnessParts(this.parts); //O(n)
+            this.parts = countingSortParts(this.parts, max); //O(n)
+        }
     }
 
     public int getMaxOverallGreatnessScenes(Scene[] arr) {
+        //Complejidad O(n)
+        int max = arr[0].getOverall_greatness();
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].getOverall_greatness() > max) {
+                max = arr[i].getOverall_greatness();
+            }
+        }
+        return max;
+    }
+
+    public int getMaxOverallGreatnessParts(Part[] arr) {
         //Complejidad O(n)
         int max = arr[0].getOverall_greatness();
         for (int i = 0; i < arr.length; i++) {
@@ -225,7 +221,7 @@ public class manager_index {
             arr[0] = aux;
         }
     }
-    
+
     public Part[] countingSortParts(Part[] arr, int max) {
         //Complejidad O(n)
         int[] conteo = new int[max + 1];
@@ -289,16 +285,15 @@ public class manager_index {
 
         return aux;
 
-
     }
-    
+
     public int getMaxRepeatedGreatnessPart(ArrayList<Part> arreglo) {
         Scene[] aux;
         int grandAux;
         int posicion = 0;
         //asumo que la primera escena del arreglo es la que tiene el animal de mayor grandeza
         Scene[] mayorGrandeza = arreglo.get(0).getScenes();
-        int maxGreat = mayorGrandeza[2].getOverall_greatness();
+        int maxGreat = mayorGrandeza[arreglo.size() - 1].getOverall_greatness();
 
         int grandeza;
 
@@ -491,9 +486,6 @@ public class manager_index {
 
             for (int i = 0; i < parte_aux.length; i++) {
 
-                
-
-
                 greatness = 0;
                 //Extrae nombres de animales de cada escena en una variable auxiliar
                 escena_aux = parte_aux[i].split(",");
@@ -586,88 +578,174 @@ public class manager_index {
         }
     }
 
+    //Hallar el animal que aparece en mas y menos escenas
+    public String repiteMasYmenos2(Part part) {
+        //Complejidad O(n)
+        String mensaje = "";
+        Scene[] arr = part.getScenes();
+
+        //Animal de grandeza máxima en toda la parte para iniciar conteo
+        int max = arr[0].getAnimales()[2].getGreatness();
+        for (int i = 0; i < arr.length; i++) { //O(n)
+            if (arr[i].getAnimales()[2].getGreatness() > max) { //O(n)
+                max = arr[i].getAnimales()[2].getGreatness(); //O(1)
+            }
+        }
+
+        int pos;
+        ArrayList<ArrayList<Animal>> count_aux = new ArrayList<ArrayList<Animal>>();
+
+        //count_aux es un arreglo de listas de animales. En cada posición contiene un arreglo de animales. 
+        //Su tamaño es max + 1; es decir, su tamaño es igual a la grandeza máxima de un animal en toda la parte
+        //Esto hace posible que en cada posición se almacene una lista de animales de la misma grandeza.
+        for (int i = 0; i < max + 1; i++) { //O(n), sabemos que la grandeza máxima que un animal puede tomar es inferior a 3n
+            count_aux.add(new ArrayList<>());
+        }
+
+        //Llenar arreglo con lista de animales de la misma grandeza en cada posición
+        for (int i = 0; i < arr.length; i++) { //O(n), sabemos que las escenas son menores a n
+            for (int j = 0; j < 3; j++) { //O(3), sabemos que hay tres animales en cada escenas
+                count_aux.get(arr[i].getAnimales()[j].getGreatness()).add(arr[i].getAnimales()[j]);
+            }
+        }
+
+        //Recorrer arreglo de listas de animales. 
+        //pos_mayor_repeticion (guarda posición del Arreglo de animales que mas animales tiene)
+        //pos_menor_repeticion (guarda posición del Arreglo de animales que menos animales tiene)
+        int pos_mayor_repeticion = 0, pos_menor_repeticion = 1;
+
+        for (int i = 1; i < count_aux.size(); i++) { //O(n), sabemos que count_aux es de tamaño inferior a 3n
+
+            //Valida si el tamaño del arreglo de animales de la posición i 
+            //es mayor al tamaño del arreglo de animales de la posición pos_mayor_repeticion
+            //En caso true, cambia pos_mayor_repeticion a i
+            if (count_aux.get(i).size() > count_aux.get(pos_mayor_repeticion).size()) {
+                pos_mayor_repeticion = i;
+            }
+
+            //Valida si el tamaño del arreglo de animales de la posición i 
+            //es menor al tamaño del arreglo de animales de la posición pos_menor_repeticion
+            //En caso true, cambia pos_menor_repeticion a i
+            if (count_aux.get(i).size() < count_aux.get(pos_menor_repeticion).size()) {
+                pos_menor_repeticion = i;
+            }
+        }
+
+        //Retornar mensaje
+        mensaje = "\nEl animal que participó en más escenas dentro del espectaculo fue: \n";
+        for (int i = 0; i < count_aux.size(); i++) {
+            for (int j = 0; j < count_aux.get(i).size(); j++) { //O(n), sabemos que hay máximo n animales
+                //Valida si una lista de animales tiene la misma cantidad de animales que la lista de animales con mayor cantidad de animales
+                //Es decir, valida todos los animales que participaron más veces dentro del espectáculo
+                if (count_aux.get(i).size() == count_aux.get(pos_mayor_repeticion).size()) {
+
+                    mensaje += count_aux.get(i).get(0).getName()
+                            + " con " + count_aux.get(i).size() + " escenas.\n";
+
+                    j = count_aux.get(i).size(); // j cambia su valor para no entrar más al ciclo. Es innecesario, ya que todos los animales en esa lista tienen la misma grandeza
+                }
+            }
+        }
+
+        mensaje += "\nEl animal que menos participo en escenas dentro del espectaculo fue: \n";
+        for (int i = 0; i < count_aux.size(); i++) {
+            for (int j = 0; j < count_aux.get(i).size(); j++) { //O(n), sabemos que hay máximo n animales
+                //Valida si una lista de animales tiene la misma cantidad de animales que la lista de animales con menor cantidad de animales
+                //Es decir, valida todos los animales que participaron menos veces dentro del espectáculo
+                if (count_aux.get(i).size() == count_aux.get(pos_menor_repeticion).size()) {
+
+                    mensaje += count_aux.get(i).get(0).getName()
+                            + " con " + count_aux.get(i).size() + " escenas.\n";
+
+                    j = count_aux.get(i).size(); // j cambia su valor para no entrar más al ciclo. Es innecesario, ya que todos los animales en esa lista tienen la misma grandeza
+                }
+            }
+        }
+
+
+        return mensaje;
+    }
+
     //Hallar el animal que aparece en mas escenas
-    public String repiteMasYmenos(Part part){
+    public String repiteMasYmenos(Part part) {
+        //Complejidad O(n^2)
         String dato = "", valorMayor = "", valorMenor = "";
         String mensaje = "";
         int repeticionesMayor = 0;
-        int repeticionesMenor = part.getScenes().length;  
-        
+        int repeticionesMenor = part.getScenes().length;
+
         ArrayList<String> repiteMasAux = new ArrayList<>();
         ArrayList<String> repiteMenosAux = new ArrayList<>();
-        
-        for(int i=0; i<part.getScenes().length; i++){
-            for(int j=0; j<3; j++){
-                dato = part.getScenes()[i].getAnimales()[j].getName();                
-                if(repeticionesMayor < verifica(dato, part)){
+
+        for (int i = 0; i < part.getScenes().length; i++) {
+            for (int j = 0; j < 3; j++) {
+                dato = part.getScenes()[i].getAnimales()[j].getName();
+                if (repeticionesMayor < verifica(dato, part)) {
                     repeticionesMayor = verifica(dato, part);
                     valorMayor = part.getScenes()[i].getAnimales()[j].getName();
-                }  
-                if(repeticionesMenor > verifica(dato, part)){
-                    repeticionesMenor = verifica(dato, part);                   
-                    valorMenor = part.getScenes()[i].getAnimales()[j].getName();                   
-                }    
+                }
+                if (repeticionesMenor > verifica(dato, part)) {
+                    repeticionesMenor = verifica(dato, part);
+                    valorMenor = part.getScenes()[i].getAnimales()[j].getName();
+                }
             }
-        }    
+        }
         repiteMasAux.add(valorMayor);
         repiteMenosAux.add(valorMenor);
-        
-        for(int i=0; i<part.getScenes().length; i++){
+
+        for (int i = 0; i < part.getScenes().length; i++) {
             for (int j = 0; j < 3; j++) {
-                dato=part.getScenes()[i].getAnimales()[j].getName();
-            
-                if(repeticionesMayor==verifica(dato, part) && dato != valorMayor){
-                    repiteMasAux.add(part.getScenes()[i].getAnimales()[j].getName());               
+                dato = part.getScenes()[i].getAnimales()[j].getName();
+
+                if (repeticionesMayor == verifica(dato, part) && dato != valorMayor) {
+                    repiteMasAux.add(part.getScenes()[i].getAnimales()[j].getName());
                 }
             }
-        }    
-        for(int i=0; i<part.getScenes().length; i++){
+        }
+        for (int i = 0; i < part.getScenes().length; i++) {
             for (int j = 0; j < 3; j++) {
-                dato=part.getScenes()[i].getAnimales()[j].getName();
-            
-                if(repeticionesMenor==verifica(dato, part) && dato != valorMenor){
-                    repiteMenosAux.add(part.getScenes()[i].getAnimales()[j].getName());               
+                dato = part.getScenes()[i].getAnimales()[j].getName();
+
+                if (repeticionesMenor == verifica(dato, part) && dato != valorMenor) {
+                    repiteMenosAux.add(part.getScenes()[i].getAnimales()[j].getName());
                 }
             }
-        }         
+        }
         for (int i = 0; i < repiteMasAux.size(); i++) {
-            for (int j = 0; j < repiteMasAux.size()-1; j++) {
-                if(i!=j){                    
-                    if(repiteMasAux.get(i).equals(repiteMasAux.get(j))){
+            for (int j = 0; j < repiteMasAux.size() - 1; j++) {
+                if (i != j) {
+                    if (repiteMasAux.get(i).equals(repiteMasAux.get(j))) {
                         repiteMasAux.remove(i);
                     }
                 }
             }
         }
         for (int i = 0; i < repiteMenosAux.size(); i++) {
-            for (int j = 0; j < repiteMenosAux.size()-1; j++) {
-                if(i!=j){                    
-                    if(repiteMenosAux.get(i).equals(repiteMenosAux.get(j))){
+            for (int j = 0; j < repiteMenosAux.size() - 1; j++) {
+                if (i != j) {
+                    if (repiteMenosAux.get(i).equals(repiteMenosAux.get(j))) {
                         repiteMenosAux.remove(i);
                     }
                 }
             }
         }
-        String repiteMas ="";
-        String repiteMenos ="";
+        String repiteMas = "";
+        String repiteMenos = "";
         for (int i = 0; i < repiteMasAux.size(); i++) {
-            repiteMas+=repiteMasAux.get(i)+"\n";
+            repiteMas += repiteMasAux.get(i) + "\n";
         }
         for (int i = 0; i < repiteMenosAux.size(); i++) {
-            repiteMenos+=repiteMenosAux.get(i)+"\n";
+            repiteMenos += repiteMenosAux.get(i) + "\n";
         }
-        
+
         mensaje = "\nEl animal que participo en mas escenas dentro del espectaculo fue: \n"
-                  +repiteMas
-                           +"con "+repeticionesMayor*2+" escenas.\n";
+                + repiteMas
+                + "con " + repeticionesMayor * 2 + " escenas.\n";
         mensaje += "\nEl animal que menos participo en escenas dentro del espectaculo fue: \n"
-                   +repiteMenos
-                           +"con "+repeticionesMenor*2+" escenas.\n";
-        return  mensaje;        
+                + repiteMenos
+                + "con " + repeticionesMenor * 2 + " escenas.\n";
+        return mensaje;
     }
-    
-
-
 
     public int verifica(String dato, Part part) {
         int x = 0;
@@ -791,9 +869,9 @@ public class manager_index {
         for (int i = 0; i < 3; i++) {
             mensaje += opening.getScenes()[(opening.getScenes().length - 1)].getAnimales()[i].getName() + " ";
         }
-        mensaje += "]";        
+        mensaje += "]";
         return mensaje;
-    }   
+    }
 
     //Halla el promedio de grandeza de todas las escenas
     public String promedioGrandeza(Part part) {
