@@ -110,6 +110,7 @@ public class manager_index {
         tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
         System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
 
+        System.out.println("ENTRE2 O(N2)");
         ordenaPartsInsertion(parts);
 
     }
@@ -183,13 +184,15 @@ public class manager_index {
         
     }
 
-    public void nlognComplexity() {
-
+    public void nlognComplexity() {        
+        int n = parts.length;                    
+        sortParts(parts, 0, n-1);         
     }
 
     public void linearComplexity() {
         int max;
         //Ordenar m - 1 partes
+        System.out.println("entre O(n)");
         for (int i = 0; i < this.m - 1; i++) { //O(60)
             max = getMaxOverallGreatnessParts(this.parts); //O(n)
             this.parts = countingSortParts(this.parts, max); //O(n)
@@ -577,9 +580,7 @@ public class manager_index {
     }
 
     //Ordena las partes por grandeza total de la parte, complejidad O(ncuadrado) - Insertion Sort
-    public void ordenaPartsInsertion(Part[] part) {
-        ArrayList<Scene> openingAux = new ArrayList<>();
-
+    public void ordenaPartsInsertion(Part[] part) {       
         for (int i = 1; i < part.length; i++) {
             Part key = new Part(part[i].getOverall_greatness(), part[i].getScenes());
 
@@ -792,38 +793,38 @@ public class manager_index {
         System.out.println(cadena);
     }
 
-    //Ordenar apertura con cost o(nlogn) MERGUE SORT-----------------------------------
-    public void sort(Part part, int left, int right) {
+    //Ordena las partes por grandeza total de la parte, costo o(nlogn) MERGUE SORT-----------------------------------
+    public void sortParts(Part[] part, int left, int right) {
         if (left < right) {
             //Encuentra el punto medio del vector.
             int middle = (left + right) / 2;
 
             //Divide la primera y segunda mitad (llamada recursiva).
-            sort(part, left, middle);
-            sort(part, middle + 1, right);
+            sortParts(part, left, middle);
+            sortParts(part, middle + 1, right);
 
             //Une las mitades.
-            OrdenaOpeningMerge(part, left, middle, right);
+            OrdenaPartMerge(part, left, middle, right);
         }
     }
 
-    public void OrdenaOpeningMerge(Part part, int left, int middle, int right) {
+    public void OrdenaPartMerge(Part[] part, int left, int middle, int right) {
         //Encuentra el tamaño de los sub-vectores para unirlos.
         int n1 = middle - left + 1;
         int n2 = right - middle;
 
         //Vectores temporales.
-        Scene leftArray[] = new Scene[n1];
-        Scene rightArray[] = new Scene[n2];
+        Part leftArray[] = new Part[n1];
+        Part rightArray[] = new Part[n2];
 
         //Copia los datos a los arrays temporales.
         for (int i = 0; i < n1; i++) {
-            leftArray[i] = part.getScenes()[left + i];
+            leftArray[i] = part[left + i];
         }
         for (int j = 0; j < n2; j++) {
-            rightArray[j] = part.getScenes()[middle + j + 1];
+            rightArray[j] = part[middle + j + 1];
         }
-        /* Une los vectorestemporales. */
+        /* Une los vectores temporales. */
 
         //Índices inicial del primer y segundo sub-vector.
         int i = 0, j = 0;
@@ -834,10 +835,10 @@ public class manager_index {
         //Ordenamiento.
         while (i < n1 && j < n2) {
             if (leftArray[i].getOverall_greatness() <= rightArray[j].getOverall_greatness()) {
-                part.getScenes()[k] = leftArray[i];
+                part[k] = leftArray[i];
                 i++;
             } else {
-                part.getScenes()[k] = rightArray[j];
+                part[k] = rightArray[j];
                 j++;
             }
             k++;
@@ -846,13 +847,13 @@ public class manager_index {
         /* Si quedan elementos por ordenar */
         //Copiar los elementos restantes de leftArray[].
         while (i < n1) {
-            part.getScenes()[k] = leftArray[i];
+            part[k] = leftArray[i];
             i++;
             k++;
         }
         //Copiar los elementos restantes de rightArray[].
         while (j < n2) {
-            part.getScenes()[k] = rightArray[j];
+            part[k] = rightArray[j];
             j++;
             k++;
         }
@@ -925,23 +926,21 @@ public class manager_index {
                     // logs.escribirAccessLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Los " + type + " fueron cargados con éxito.");                    
                     loadData((ArrayList<String>) response.get(1));
                     zooSolution();
-                    int n = opening.getScenes().length;
-                    //printArray(opening);
-                    //sort(opening, 0, n-1);
-                    //printArray(opening);
+                    
                     System.out.println("\nEl orden en el que se debe presentar el espectaculo es");
                     System.out.println("\nApertura ordenada");
-                    ordenaOpeningInsertion(opening);
+                    ordenaOpeningInsertion(opening);                                       
                     ordenaGrandezaAnimal(opening);
 
-                    ordenaPartsInsertion(parts);
-                    System.out.println("\nPartes Ordenada: ");
-                    for (int i = 0; i < parts.length; i++) {
-                        ordenaOpeningInsertion(parts[i]);
-                        ordenaGrandezaAnimal(parts[i]);
-                    }
+                    //ordenaPartsInsertion(parts);
+                    //[|ciempies libelula gato |gato perro tapir |]
+                    //[|ciempies gato tapir |perro tapir nutria |]
+                    
+                    //int n = parts.length;                    
+                    //sort(parts, 0, n-1); 
+                    
                     System.out.println(repiteMasYmenos(opening));
-                    mayorYmenorGrandeza();
+                    System.out.println(mayorYmenorGrandeza());
                     System.out.println(promedioGrandeza(opening));
                     //zooSolution();
                     break;
