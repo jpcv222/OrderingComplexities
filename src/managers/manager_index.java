@@ -12,6 +12,8 @@ import classes.Scene;
 import components.Dialogs;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import views.Index;
 
 /**
@@ -26,13 +28,13 @@ public class manager_index {
 
     private Animal[] animales;
     private int n, m, k;
+    long counter;
     //private Animal[][] apertura;
     //private Animal[][][] partes;
 
     Part[] parts;
     Part opening;
     private int complejidad;
-    long TInicio, TFin, tiempo;
     ArrayList<String> results;
 
     public int getComplejidad() {
@@ -51,12 +53,24 @@ public class manager_index {
         this.m = 0;
         this.k = 0;
         this.complejidad = 0;
+        this.opening = new Part(k);
+        this.parts = new Part[n];
     }
 
     public void zooSolution() {
         this.results = new ArrayList<>();
-        TInicio = System.nanoTime(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
+        this.counter = 0;
 
+        long TInicio, TFin, tiempo;
+        TInicio = System.nanoTime(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
+        
+        results.add("-----El desorden en del espectáculo debe ser:");
+        results.add("Apertura: " + printPart(this.opening.getScenes())); //O(n)        
+        for (int i = 0; i < this.parts.length; i++) { //O(n)
+            this.counter++;
+            results.add("Parte " + (i + 1) + ": " + printPart(this.parts[i].getScenes()) + " Grandeza: "+ this.parts[i].getOverall_greatness()); //O(n)
+        }
+        
         //Ordenar escenas dentro de apertura
         sortOpening(); //O(n)
 
@@ -68,17 +82,17 @@ public class manager_index {
             case 0:
                 //Solución para complejidad n
                 results.add("Complejidad O(n)");
-                linearComplexity(); //O(n)
+                //linearComplexity(); //O(n)
                 break;
             case 1:
                 //Solución para complejidad nlogn
                 results.add("Complejidad O(nlogn)");
-                nlognComplexity(); //O(nlogn)
+                //nlognComplexity(); //O(nlogn)
                 break;
             case 2:
                 //Solución para complejidad n^2
                 results.add("Complejidad O(n^2)");
-                cuadraticComplexity(); //O(n^2)
+                //cuadraticComplexity(); //O(n^2)
                 break;
         }
 
@@ -86,6 +100,7 @@ public class manager_index {
         results.add("El orden en del espectáculo debe ser:");
         results.add("Apertura: " + printPart(this.opening.getScenes())); //O(n)        
         for (int i = 0; i < this.parts.length; i++) { //O(n)
+            this.counter++;
             results.add("Parte " + (i + 1) + ": " + printPart(this.parts[i].getScenes())); //O(n)
         }
 
@@ -100,22 +115,19 @@ public class manager_index {
         results.add(mayorYmenorGrandeza()); //O(n)
         // Promedio de grandeza de todo el espectáculo
         results.add(promedioGrandeza(opening)); //O(n)
-
         TFin = System.nanoTime(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
         tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
         results.add("Tiempo de ejecución en milisegundos: " + tiempo);
-        results.add("Tiempo de ejecución en milisegundos: " + TInicio + " - "+ TFin);
+        results.add("Tiempo de ejecución en unidades de contador es: " + this.counter);
         printResults();
 
     }
 
     public void cuadraticComplexity() {
-        TFin = System.currentTimeMillis(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
-        tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
-        System.out.println("Tiempo de ejecución en nanosegundos es: " + tiempo);
 
         System.out.println("ENTRE2 O(N2)");
-        ordenaPartsInsertion(parts);
+        //ordenaPartsInsertion(parts);
+        ordenaPartsInsertion2(this.parts);
 
     }
 
@@ -126,6 +138,7 @@ public class manager_index {
             result += "(";
             for (int j = 0; j < 3; j++) { //O(k)
                 result += arr[i].getAnimales()[j].getName();
+                this.counter++;
                 if (j < 2) {
                     result += ",";
                 }
@@ -159,25 +172,27 @@ public class manager_index {
         //Ordenar animales de m-1 partes
         for (int i = 0; i < this.parts.length; i++) {
             for (int j = 0; j < this.k; j++) {
+                this.counter++;
                 sortAnimals(this.parts[i].getScenes()[j].getAnimales()); // O(k)
             }
         }
         //Ordenar escenas de m-1 partes
-        for (int i = 0; i < this.k; i++) {
+        for (int i = 0; i < this.m - 1; i++) {
+            this.counter++;
             max = getMaxOverallGreatnessScenes(this.parts[i].getScenes()); //O(n)
             this.parts[i].setScenes(countingSortScenes(this.parts[i].getScenes(), max)); //O(n)
         }
     }
 
     public void printResults() {
-        String [] response = this.file.createFile(this.results).split(";");
+        String[] response = this.file.createFile(this.results).split(";");
         switch (response[0]) {
             case "success":
-                modal.success_message("Respuesta del programa.", "Éxito al crear archivo.", "Revise su respesta en capeta","/OrderingComplexities/files/output/","Archivo: " + response[1]);
+                modal.success_message("Respuesta del programa.", "Éxito al crear archivo.", "Revise su respesta en capeta", "/OrderingComplexities/files/output/", "Archivo: " + response[1]);
                 // logs.escribirAccessLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Los " + type + " fueron cargados con éxito.");                    
                 break;
             case "error":
-                modal.error_message("Error al crear el archivo.", "Error fatal.", "Comuníquese con el área de sistemas.",null, null);
+                modal.error_message("Error al crear el archivo.", "Error fatal.", "Comuníquese con el área de sistemas.", null, null);
                 // logs.escribirErrorLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Librería para carga CSV no encontrada.");
                 break;
 
@@ -185,12 +200,12 @@ public class manager_index {
                 //  logs.escribirErrorLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Respuesta a petición inválida.");
                 break;
         }
-        
+
     }
 
-    public void nlognComplexity() {        
-        int n = parts.length;                    
-        sortParts(parts, 0, n-1);         
+    public void nlognComplexity() {
+        int n = parts.length;
+        sortParts(parts, 0, n - 1);
     }
 
     public void linearComplexity() {
@@ -198,6 +213,7 @@ public class manager_index {
         //Ordenar m - 1 partes
         System.out.println("entre O(n)");
         for (int i = 0; i < this.m - 1; i++) { //O(60)
+            this.counter++;
             max = getMaxOverallGreatnessParts(this.parts); //O(n)
             this.parts = countingSortParts(this.parts, max); //O(n)
         }
@@ -207,6 +223,7 @@ public class manager_index {
         //Complejidad O(n)
         int max = arr[0].getOverall_greatness();
         for (int i = 0; i < arr.length; i++) {
+            this.counter++;
             if (arr[i].getOverall_greatness() > max) {
                 max = arr[i].getOverall_greatness();
             }
@@ -218,6 +235,7 @@ public class manager_index {
         //Complejidad O(n)
         int max = arr[0].getOverall_greatness();
         for (int i = 0; i < arr.length; i++) {
+            this.counter++;
             if (arr[i].getOverall_greatness() > max) {
                 max = arr[i].getOverall_greatness();
             }
@@ -227,6 +245,7 @@ public class manager_index {
 
     public void sortAnimals(Animal[] arr) {
         //Complejidad O(k)
+        this.counter++;
         Animal aux;
         if (arr[0].getGreatness() > arr[1].getGreatness()) {
             aux = arr[1];
@@ -256,15 +275,18 @@ public class manager_index {
         for (int i = 0; i < conteo.length; i++) {
             conteo[i] = 0;
             //count_aux.add(new ArrayList<>());
+            this.counter++;
         }
 
         for (int i = 0; i < arr.length; i++) {
             conteo[arr[i].getOverall_greatness()]++;
             //count_aux.get(arr[i].getOverall_greatness()).add(arr[i]);
+            this.counter++;
         }
 
         for (int i = 2; i < conteo.length; i++) {
             conteo[i] = conteo[i] + conteo[i - 1];
+            this.counter++;
         }
 
         for (int i = 0; i < arr.length; i++) {
@@ -273,6 +295,7 @@ public class manager_index {
             //System.out.println("Aux pos "+ conteo[arr[i].getOverall_greatness()]);
             //count_aux.get(arr[i].getOverall_greatness()).remove(pos);
             conteo[arr[i].getOverall_greatness()]--;
+            this.counter++;
         }
 
         return aux;
@@ -288,15 +311,18 @@ public class manager_index {
         for (int i = 0; i < conteo.length; i++) {
             conteo[i] = 0;
             count_aux.add(new ArrayList<>());
+            this.counter++;
         }
 
         for (int i = 0; i < arr.length; i++) {
             conteo[arr[i].getOverall_greatness()]++;
             count_aux.get(arr[i].getOverall_greatness()).add(arr[i]);
+            this.counter++;
         }
 
         for (int i = 2; i < conteo.length; i++) {
             conteo[i] = conteo[i] + conteo[i - 1];
+            this.counter++;
         }
 
         for (int i = 0; i < arr.length; i++) {
@@ -305,6 +331,7 @@ public class manager_index {
             //System.out.println("Aux pos "+ conteo[arr[i].getOverall_greatness()]);
             count_aux.get(arr[i].getOverall_greatness()).remove(pos);
             conteo[arr[i].getOverall_greatness()]--;
+            this.counter++;
         }
 
         return aux;
@@ -584,7 +611,7 @@ public class manager_index {
     }
 
     //Ordena las partes por grandeza total de la parte, complejidad O(ncuadrado) - Insertion Sort
-    public void ordenaPartsInsertion(Part[] part) {       
+    public void ordenaPartsInsertion(Part[] part) {
         for (int i = 1; i < part.length; i++) {
             Part key = new Part(part[i].getOverall_greatness(), part[i].getScenes());
 
@@ -600,6 +627,20 @@ public class manager_index {
         }
     }
 
+    public void ordenaPartsInsertion2(Part[] part) {
+        Part aux;
+        for (int i = 0; i < part.length; i++) {
+            for (int j = 1; j < part.length; j++) {
+                this.counter++;
+                if (part[i].getOverall_greatness() > part[j].getOverall_greatness()) {
+                    aux = part[i];
+                    part[i] = part[j];
+                    part[j] = aux;
+                }
+            }
+        }
+    }
+
     //Hallar el animal que aparece en mas y menos escenas
     public String repiteMasYmenos2(Part part) {
         //Complejidad O(n)
@@ -609,6 +650,7 @@ public class manager_index {
         //Animal de grandeza máxima en toda la parte para iniciar conteo
         int max = arr[0].getAnimales()[2].getGreatness();
         for (int i = 0; i < arr.length; i++) { //O(n)
+            this.counter++;
             if (arr[i].getAnimales()[2].getGreatness() > max) { //O(n)
                 max = arr[i].getAnimales()[2].getGreatness(); //O(1)
             }
@@ -621,12 +663,14 @@ public class manager_index {
         //Su tamaño es max + 1; es decir, su tamaño es igual a la grandeza máxima de un animal en toda la parte
         //Esto hace posible que en cada posición se almacene una lista de animales de la misma grandeza.
         for (int i = 0; i < max + 1; i++) { //O(n), sabemos que la grandeza máxima que un animal puede tomar es inferior a 3n
+            this.counter++;
             count_aux.add(new ArrayList<>());
         }
 
         //Llenar arreglo con lista de animales de la misma grandeza en cada posición
         for (int i = 0; i < arr.length; i++) { //O(n), sabemos que las escenas son menores a n
             for (int j = 0; j < 3; j++) { //O(3), sabemos que hay tres animales en cada escenas
+                this.counter++;
                 count_aux.get(arr[i].getAnimales()[j].getGreatness()).add(arr[i].getAnimales()[j]);
             }
         }
@@ -637,7 +681,7 @@ public class manager_index {
         int pos_mayor_repeticion = 0, pos_menor_repeticion = 1;
 
         for (int i = 1; i < count_aux.size(); i++) { //O(n), sabemos que count_aux es de tamaño inferior a 3n
-
+            this.counter++;
             //Valida si el tamaño del arreglo de animales de la posición i 
             //es mayor al tamaño del arreglo de animales de la posición pos_mayor_repeticion
             //En caso true, cambia pos_mayor_repeticion a i
@@ -659,6 +703,7 @@ public class manager_index {
             for (int j = 0; j < count_aux.get(i).size(); j++) { //O(n), sabemos que hay máximo n animales
                 //Valida si una lista de animales tiene la misma cantidad de animales que la lista de animales con mayor cantidad de animales
                 //Es decir, valida todos los animales que participaron más veces dentro del espectáculo
+                this.counter++;
                 if (count_aux.get(i).size() == count_aux.get(pos_mayor_repeticion).size()) {
 
                     mensaje += count_aux.get(i).get(0).getName()
@@ -674,6 +719,7 @@ public class manager_index {
             for (int j = 0; j < count_aux.get(i).size(); j++) { //O(n), sabemos que hay máximo n animales
                 //Valida si una lista de animales tiene la misma cantidad de animales que la lista de animales con menor cantidad de animales
                 //Es decir, valida todos los animales que participaron menos veces dentro del espectáculo
+                this.counter++;
                 if (count_aux.get(i).size() == count_aux.get(pos_menor_repeticion).size()) {
 
                     mensaje += count_aux.get(i).get(0).getName()
@@ -802,7 +848,7 @@ public class manager_index {
         if (left < right) {
             //Encuentra el punto medio del vector.
             int middle = (left + right) / 2;
-
+            this.counter++;
             //Divide la primera y segunda mitad (llamada recursiva).
             sortParts(part, left, middle);
             sortParts(part, middle + 1, right);
@@ -824,9 +870,11 @@ public class manager_index {
         //Copia los datos a los arrays temporales.
         for (int i = 0; i < n1; i++) {
             leftArray[i] = part[left + i];
+            this.counter++;
         }
         for (int j = 0; j < n2; j++) {
             rightArray[j] = part[middle + j + 1];
+            this.counter++;
         }
         /* Une los vectores temporales. */
 
@@ -838,6 +886,7 @@ public class manager_index {
 
         //Ordenamiento.
         while (i < n1 && j < n2) {
+            this.counter++;
             if (leftArray[i].getOverall_greatness() <= rightArray[j].getOverall_greatness()) {
                 part[k] = leftArray[i];
                 i++;
@@ -851,12 +900,14 @@ public class manager_index {
         /* Si quedan elementos por ordenar */
         //Copiar los elementos restantes de leftArray[].
         while (i < n1) {
+            this.counter++;
             part[k] = leftArray[i];
             i++;
             k++;
         }
         //Copiar los elementos restantes de rightArray[].
         while (j < n2) {
+            this.counter++;
             part[k] = rightArray[j];
             j++;
             k++;
@@ -882,12 +933,14 @@ public class manager_index {
         mensaje += "La escena de menor grandeza total fue la escena [ ";
 
         for (int i = 0; i < 3; i++) {
+            this.counter++;
             mensaje += opening.getScenes()[0].getAnimales()[i].getName() + " ";
         }
         mensaje += "]";
 
         mensaje += "\n\nLa escena de mayor grandeza total fue la escena [ ";
         for (int i = 0; i < 3; i++) {
+            this.counter++;
             mensaje += opening.getScenes()[(opening.getScenes().length - 1)].getAnimales()[i].getName() + " ";
         }
         mensaje += "]";
@@ -900,6 +953,7 @@ public class manager_index {
         double promedio = 0, sumaTotal = 0, totalElementos = part.getScenes().length;
 
         for (int i = 0; i < part.getScenes().length; i++) {
+            this.counter++;
             sumaTotal += part.getScenes()[i].getOverall_greatness();
         }
         promedio = sumaTotal / totalElementos;
@@ -930,23 +984,21 @@ public class manager_index {
                     // logs.escribirAccessLogs(Thread.currentThread().getStackTrace()[1].getMethodName() + "// Los " + type + " fueron cargados con éxito.");                    
                     loadData((ArrayList<String>) response.get(1));
                     zooSolution();
-                    
-                    System.out.println("\nEl orden en el que se debe presentar el espectaculo es");
+
+                    /*System.out.println("\nEl orden en el que se debe presentar el espectaculo es");
                     System.out.println("\nApertura ordenada");
-                    ordenaOpeningInsertion(opening);                                       
+                    ordenaOpeningInsertion(opening);
                     ordenaGrandezaAnimal(opening);
 
                     //ordenaPartsInsertion(parts);
                     //[|ciempies libelula gato |gato perro tapir |]
                     //[|ciempies gato tapir |perro tapir nutria |]
-                    
                     //int n = parts.length;                    
                     //sort(parts, 0, n-1); 
-                    
                     System.out.println(repiteMasYmenos(opening));
                     System.out.println(mayorYmenorGrandeza());
                     System.out.println(promedioGrandeza(opening));
-                    //zooSolution();
+                    //zooSolution();*/
                     break;
                 case "error.noclassdeffounderror":
                     modal.error_message("Carga de " + type + ".", "Error fatal.", "Librería de lectura de archivo extraviada.", "Comuníquese con el área de sistemas.", null);

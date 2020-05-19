@@ -1,0 +1,10 @@
+n=24;
+m=5;
+k=2;
+animales = {venado, nutria, lemur, anaconda, danta, chiguiro, loro, cisne, condor, tucan, hiena, suricato, osoanteojos, jaguar, tatabro, rana, canguro, cebra, avestruz, grulla, leon, puma, tigre, pantera};
+grandezas = {13, 9, 14, 15, 11, 12, 2, 5, 6, 3, 16, 7, 18, 10, 17, 1, 19, 20, 8, 4, 24, 21, 23, 22};
+apertura = {{suricato, canguro, hiena}, {anaconda, puma, loro}, {nutria, pantera, tatabro}, {tucan, danta, lemur}, {grulla, cebra, rana}, {tigre, venado, avestruz}, {chiguiro, osoanteojos, cisne}, {jaguar, condor, leon}};
+parte = {{suricato, canguro, hiena}, {nutria, pantera, tatabro}};
+parte = {{tigre, venado, avestruz}, {chiguiro, oso anteojos, cisne}};
+parte = {{jaguar, condor, leon}, {grulla, cebra, rana}};
+parte = {{anaconda, puma, loro}, tucan, danta, lemur}};
