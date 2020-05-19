@@ -82,17 +82,17 @@ public class manager_index {
             case 0:
                 //Solución para complejidad n
                 results.add("Complejidad O(n)");
-                //linearComplexity(); //O(n)
+                linearComplexity(); //O(n)
                 break;
             case 1:
                 //Solución para complejidad nlogn
                 results.add("Complejidad O(nlogn)");
-                //nlognComplexity(); //O(nlogn)
+                nlognComplexity(); //O(nlogn)
                 break;
             case 2:
                 //Solución para complejidad n^2
                 results.add("Complejidad O(n^2)");
-                //cuadraticComplexity(); //O(n^2)
+                cuadraticComplexity(); //O(n^2)
                 break;
         }
 
@@ -126,8 +126,8 @@ public class manager_index {
     public void cuadraticComplexity() {
 
         System.out.println("ENTRE2 O(N2)");
-        //ordenaPartsInsertion(parts);
-        ordenaPartsInsertion2(this.parts);
+        ordenaPartsInsertion(parts);
+        //ordenaPartsInsertion2(this.parts);
 
     }
 
@@ -275,7 +275,7 @@ public class manager_index {
         for (int i = 0; i < conteo.length; i++) {
             conteo[i] = 0;
             //count_aux.add(new ArrayList<>());
-            this.counter++;
+            //this.counter++;
         }
 
         for (int i = 0; i < arr.length; i++) {
@@ -632,7 +632,7 @@ public class manager_index {
         for (int i = 0; i < part.length; i++) {
             for (int j = 1; j < part.length; j++) {
                 this.counter++;
-                if (part[i].getOverall_greatness() > part[j].getOverall_greatness()) {
+                if (part[j].getOverall_greatness() < part[i].getOverall_greatness()) {
                     aux = part[i];
                     part[i] = part[j];
                     part[j] = aux;
