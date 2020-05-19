@@ -236,7 +236,7 @@ public class Index extends javax.swing.JFrame {
 
     private void jcbComplejidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcbComplejidadMouseClicked
         // TODO add your handling code here:
-        
+        manager.setComplejidad(jcbComplejidad.getSelectedIndex());
     }//GEN-LAST:event_jcbComplejidadMouseClicked
 
     /**

@@ -55,7 +55,7 @@ public class manager_index {
 
     public void zooSolution() {
         this.results = new ArrayList<>();
-        TInicio = System.currentTimeMillis(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
+        TInicio = System.nanoTime(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
 
         //Ordenar escenas dentro de apertura
         sortOpening(); //O(n)
@@ -67,14 +67,17 @@ public class manager_index {
         switch (this.complejidad) {
             case 0:
                 //Solución para complejidad n
+                results.add("Complejidad O(n)");
                 linearComplexity(); //O(n)
                 break;
             case 1:
                 //Solución para complejidad nlogn
+                results.add("Complejidad O(nlogn)");
                 nlognComplexity(); //O(nlogn)
                 break;
             case 2:
                 //Solución para complejidad n^2
+                results.add("Complejidad O(n^2)");
                 cuadraticComplexity(); //O(n^2)
                 break;
         }
@@ -98,9 +101,10 @@ public class manager_index {
         // Promedio de grandeza de todo el espectáculo
         results.add(promedioGrandeza(opening)); //O(n)
 
-        TFin = System.currentTimeMillis(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
+        TFin = System.nanoTime(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
         tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
         results.add("Tiempo de ejecución en milisegundos: " + tiempo);
+        results.add("Tiempo de ejecución en milisegundos: " + TInicio + " - "+ TFin);
         printResults();
 
     }
@@ -247,16 +251,16 @@ public class manager_index {
         int[] conteo = new int[max + 1];
         int pos;
         Part[] aux = new Part[arr.length];
-        ArrayList<ArrayList<Part>> count_aux = new ArrayList<ArrayList<Part>>();
+        //ArrayList<ArrayList<Part>> count_aux = new ArrayList<ArrayList<Part>>();
 
         for (int i = 0; i < conteo.length; i++) {
             conteo[i] = 0;
-            count_aux.add(new ArrayList<>());
+            //count_aux.add(new ArrayList<>());
         }
 
         for (int i = 0; i < arr.length; i++) {
             conteo[arr[i].getOverall_greatness()]++;
-            count_aux.get(arr[i].getOverall_greatness()).add(arr[i]);
+            //count_aux.get(arr[i].getOverall_greatness()).add(arr[i]);
         }
 
         for (int i = 2; i < conteo.length; i++) {
@@ -264,10 +268,10 @@ public class manager_index {
         }
 
         for (int i = 0; i < arr.length; i++) {
-            pos = getMaxRepeatedGreatnessPart(count_aux.get(arr[i].getOverall_greatness()));
-            aux[conteo[arr[i].getOverall_greatness()] - 1] = count_aux.get(arr[i].getOverall_greatness()).get(pos);
+            //pos = getMaxRepeatedGreatnessPart(count_aux.get(arr[i].getOverall_greatness()));
+            aux[conteo[arr[i].getOverall_greatness()] - 1] = arr[i];
             //System.out.println("Aux pos "+ conteo[arr[i].getOverall_greatness()]);
-            count_aux.get(arr[i].getOverall_greatness()).remove(pos);
+            //count_aux.get(arr[i].getOverall_greatness()).remove(pos);
             conteo[arr[i].getOverall_greatness()]--;
         }
 
