@@ -28,7 +28,6 @@ public class manager_index {
 
     private Animal[] animales;
     private int n, m, k;
-    long counter;
     //private Animal[][] apertura;
     //private Animal[][][] partes;
 
@@ -59,7 +58,6 @@ public class manager_index {
 
     public void zooSolution() {
         this.results = new ArrayList<>();
-        this.counter = 0;
 
         long TInicio, TFin, tiempo;
         TInicio = System.nanoTime(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
@@ -67,7 +65,6 @@ public class manager_index {
         results.add("-----El desorden en del espectáculo debe ser:");
         results.add("Apertura: " + printPart(this.opening.getScenes())); //O(n)        
         for (int i = 0; i < this.parts.length; i++) { //O(n)
-            this.counter++;
             results.add("Parte " + (i + 1) + ": " + printPart(this.parts[i].getScenes()) + " Grandeza: "+ this.parts[i].getOverall_greatness()); //O(n)
         }
         
@@ -100,7 +97,6 @@ public class manager_index {
         results.add("El orden en del espectáculo debe ser:");
         results.add("Apertura: " + printPart(this.opening.getScenes())); //O(n)        
         for (int i = 0; i < this.parts.length; i++) { //O(n)
-            this.counter++;
             results.add("Parte " + (i + 1) + ": " + printPart(this.parts[i].getScenes())); //O(n)
         }
 
@@ -118,7 +114,6 @@ public class manager_index {
         TFin = System.nanoTime(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
         tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
         results.add("Tiempo de ejecución en milisegundos: " + tiempo);
-        results.add("Tiempo de ejecución en unidades de contador es: " + this.counter);
         printResults();
 
     }
@@ -138,7 +133,6 @@ public class manager_index {
             result += "(";
             for (int j = 0; j < 3; j++) { //O(k)
                 result += arr[i].getAnimales()[j].getName();
-                this.counter++;
                 if (j < 2) {
                     result += ",";
                 }
@@ -172,13 +166,11 @@ public class manager_index {
         //Ordenar animales de m-1 partes
         for (int i = 0; i < this.parts.length; i++) {
             for (int j = 0; j < this.k; j++) {
-                this.counter++;
                 sortAnimals(this.parts[i].getScenes()[j].getAnimales()); // O(k)
             }
         }
         //Ordenar escenas de m-1 partes
         for (int i = 0; i < this.m - 1; i++) {
-            this.counter++;
             max = getMaxOverallGreatnessScenes(this.parts[i].getScenes()); //O(n)
             this.parts[i].setScenes(countingSortScenes(this.parts[i].getScenes(), max)); //O(n)
         }
@@ -213,7 +205,6 @@ public class manager_index {
         //Ordenar m - 1 partes
         System.out.println("entre O(n)");
         for (int i = 0; i < this.m - 1; i++) { //O(60)
-            this.counter++;
             max = getMaxOverallGreatnessParts(this.parts); //O(n)
             this.parts = countingSortParts(this.parts, max); //O(n)
         }
@@ -223,7 +214,6 @@ public class manager_index {
         //Complejidad O(n)
         int max = arr[0].getOverall_greatness();
         for (int i = 0; i < arr.length; i++) {
-            this.counter++;
             if (arr[i].getOverall_greatness() > max) {
                 max = arr[i].getOverall_greatness();
             }
@@ -235,7 +225,6 @@ public class manager_index {
         //Complejidad O(n)
         int max = arr[0].getOverall_greatness();
         for (int i = 0; i < arr.length; i++) {
-            this.counter++;
             if (arr[i].getOverall_greatness() > max) {
                 max = arr[i].getOverall_greatness();
             }
@@ -245,7 +234,6 @@ public class manager_index {
 
     public void sortAnimals(Animal[] arr) {
         //Complejidad O(k)
-        this.counter++;
         Animal aux;
         if (arr[0].getGreatness() > arr[1].getGreatness()) {
             aux = arr[1];
@@ -275,18 +263,15 @@ public class manager_index {
         for (int i = 0; i < conteo.length; i++) {
             conteo[i] = 0;
             //count_aux.add(new ArrayList<>());
-            //this.counter++;
         }
 
         for (int i = 0; i < arr.length; i++) {
             conteo[arr[i].getOverall_greatness()]++;
             //count_aux.get(arr[i].getOverall_greatness()).add(arr[i]);
-            this.counter++;
         }
 
         for (int i = 2; i < conteo.length; i++) {
             conteo[i] = conteo[i] + conteo[i - 1];
-            this.counter++;
         }
 
         for (int i = 0; i < arr.length; i++) {
@@ -295,7 +280,6 @@ public class manager_index {
             //System.out.println("Aux pos "+ conteo[arr[i].getOverall_greatness()]);
             //count_aux.get(arr[i].getOverall_greatness()).remove(pos);
             conteo[arr[i].getOverall_greatness()]--;
-            this.counter++;
         }
 
         return aux;
@@ -311,18 +295,15 @@ public class manager_index {
         for (int i = 0; i < conteo.length; i++) {
             conteo[i] = 0;
             count_aux.add(new ArrayList<>());
-            this.counter++;
         }
 
         for (int i = 0; i < arr.length; i++) {
             conteo[arr[i].getOverall_greatness()]++;
             count_aux.get(arr[i].getOverall_greatness()).add(arr[i]);
-            this.counter++;
         }
 
         for (int i = 2; i < conteo.length; i++) {
             conteo[i] = conteo[i] + conteo[i - 1];
-            this.counter++;
         }
 
         for (int i = 0; i < arr.length; i++) {
@@ -331,7 +312,6 @@ public class manager_index {
             //System.out.println("Aux pos "+ conteo[arr[i].getOverall_greatness()]);
             count_aux.get(arr[i].getOverall_greatness()).remove(pos);
             conteo[arr[i].getOverall_greatness()]--;
-            this.counter++;
         }
 
         return aux;
@@ -631,7 +611,6 @@ public class manager_index {
         Part aux;
         for (int i = 0; i < part.length; i++) {
             for (int j = 1; j < part.length; j++) {
-                this.counter++;
                 if (part[j].getOverall_greatness() < part[i].getOverall_greatness()) {
                     aux = part[i];
                     part[i] = part[j];
@@ -650,7 +629,6 @@ public class manager_index {
         //Animal de grandeza máxima en toda la parte para iniciar conteo
         int max = arr[0].getAnimales()[2].getGreatness();
         for (int i = 0; i < arr.length; i++) { //O(n)
-            this.counter++;
             if (arr[i].getAnimales()[2].getGreatness() > max) { //O(n)
                 max = arr[i].getAnimales()[2].getGreatness(); //O(1)
             }
@@ -663,14 +641,12 @@ public class manager_index {
         //Su tamaño es max + 1; es decir, su tamaño es igual a la grandeza máxima de un animal en toda la parte
         //Esto hace posible que en cada posición se almacene una lista de animales de la misma grandeza.
         for (int i = 0; i < max + 1; i++) { //O(n), sabemos que la grandeza máxima que un animal puede tomar es inferior a 3n
-            this.counter++;
             count_aux.add(new ArrayList<>());
         }
 
         //Llenar arreglo con lista de animales de la misma grandeza en cada posición
         for (int i = 0; i < arr.length; i++) { //O(n), sabemos que las escenas son menores a n
             for (int j = 0; j < 3; j++) { //O(3), sabemos que hay tres animales en cada escenas
-                this.counter++;
                 count_aux.get(arr[i].getAnimales()[j].getGreatness()).add(arr[i].getAnimales()[j]);
             }
         }
@@ -681,7 +657,6 @@ public class manager_index {
         int pos_mayor_repeticion = 0, pos_menor_repeticion = 1;
 
         for (int i = 1; i < count_aux.size(); i++) { //O(n), sabemos que count_aux es de tamaño inferior a 3n
-            this.counter++;
             //Valida si el tamaño del arreglo de animales de la posición i 
             //es mayor al tamaño del arreglo de animales de la posición pos_mayor_repeticion
             //En caso true, cambia pos_mayor_repeticion a i
@@ -703,7 +678,6 @@ public class manager_index {
             for (int j = 0; j < count_aux.get(i).size(); j++) { //O(n), sabemos que hay máximo n animales
                 //Valida si una lista de animales tiene la misma cantidad de animales que la lista de animales con mayor cantidad de animales
                 //Es decir, valida todos los animales que participaron más veces dentro del espectáculo
-                this.counter++;
                 if (count_aux.get(i).size() == count_aux.get(pos_mayor_repeticion).size()) {
 
                     mensaje += count_aux.get(i).get(0).getName()
@@ -719,7 +693,6 @@ public class manager_index {
             for (int j = 0; j < count_aux.get(i).size(); j++) { //O(n), sabemos que hay máximo n animales
                 //Valida si una lista de animales tiene la misma cantidad de animales que la lista de animales con menor cantidad de animales
                 //Es decir, valida todos los animales que participaron menos veces dentro del espectáculo
-                this.counter++;
                 if (count_aux.get(i).size() == count_aux.get(pos_menor_repeticion).size()) {
 
                     mensaje += count_aux.get(i).get(0).getName()
@@ -848,7 +821,6 @@ public class manager_index {
         if (left < right) {
             //Encuentra el punto medio del vector.
             int middle = (left + right) / 2;
-            this.counter++;
             //Divide la primera y segunda mitad (llamada recursiva).
             sortParts(part, left, middle);
             sortParts(part, middle + 1, right);
@@ -870,11 +842,9 @@ public class manager_index {
         //Copia los datos a los arrays temporales.
         for (int i = 0; i < n1; i++) {
             leftArray[i] = part[left + i];
-            this.counter++;
         }
         for (int j = 0; j < n2; j++) {
             rightArray[j] = part[middle + j + 1];
-            this.counter++;
         }
         /* Une los vectores temporales. */
 
@@ -886,7 +856,6 @@ public class manager_index {
 
         //Ordenamiento.
         while (i < n1 && j < n2) {
-            this.counter++;
             if (leftArray[i].getOverall_greatness() <= rightArray[j].getOverall_greatness()) {
                 part[k] = leftArray[i];
                 i++;
@@ -900,14 +869,12 @@ public class manager_index {
         /* Si quedan elementos por ordenar */
         //Copiar los elementos restantes de leftArray[].
         while (i < n1) {
-            this.counter++;
             part[k] = leftArray[i];
             i++;
             k++;
         }
         //Copiar los elementos restantes de rightArray[].
         while (j < n2) {
-            this.counter++;
             part[k] = rightArray[j];
             j++;
             k++;
@@ -933,14 +900,12 @@ public class manager_index {
         mensaje += "La escena de menor grandeza total fue la escena [ ";
 
         for (int i = 0; i < 3; i++) {
-            this.counter++;
             mensaje += opening.getScenes()[0].getAnimales()[i].getName() + " ";
         }
         mensaje += "]";
 
         mensaje += "\n\nLa escena de mayor grandeza total fue la escena [ ";
         for (int i = 0; i < 3; i++) {
-            this.counter++;
             mensaje += opening.getScenes()[(opening.getScenes().length - 1)].getAnimales()[i].getName() + " ";
         }
         mensaje += "]";
@@ -953,7 +918,6 @@ public class manager_index {
         double promedio = 0, sumaTotal = 0, totalElementos = part.getScenes().length;
 
         for (int i = 0; i < part.getScenes().length; i++) {
-            this.counter++;
             sumaTotal += part.getScenes()[i].getOverall_greatness();
         }
         promedio = sumaTotal / totalElementos;
