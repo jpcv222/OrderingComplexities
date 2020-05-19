@@ -48,7 +48,6 @@ public class Index extends javax.swing.JFrame {
         jLabelRutaArchivo = new javax.swing.JLabel();
         jButtonCargar = new javax.swing.JButton();
         jcbComplejidad = new javax.swing.JComboBox<>();
-        jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -157,19 +156,6 @@ public class Index extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Cargar archivo de entrada", jPanel2);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 571, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 413, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Llenar formulario de entrada", jPanel3);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -209,26 +195,6 @@ public class Index extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanelSelectCSVUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelSelectCSVUserMouseClicked
-        // TODO add your handling code here:
-        manager.selectFile();
-    }//GEN-LAST:event_jPanelSelectCSVUserMouseClicked
-
-    private void jPanelSelectCSVUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelSelectCSVUserMouseEntered
-        // TODO add your handling code here:
-        jPanelSelectCSVUser.setBackground(item_bottom_entered);
-    }//GEN-LAST:event_jPanelSelectCSVUserMouseEntered
-
-    private void jPanelSelectCSVUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelSelectCSVUserMouseExited
-        // TODO add your handling code here:
-        jPanelSelectCSVUser.setBackground(item_bottom_exited);
-    }//GEN-LAST:event_jPanelSelectCSVUserMouseExited
-
-    private void jButtonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCargarActionPerformed
-        // TODO add your handling code here:
-        manager.readTXTFile();
-    }//GEN-LAST:event_jButtonCargarActionPerformed
-
     private void jcbComplejidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbComplejidadActionPerformed
         // TODO add your handling code here:
         manager.setComplejidad(jcbComplejidad.getSelectedIndex());
@@ -238,6 +204,26 @@ public class Index extends javax.swing.JFrame {
         // TODO add your handling code here:
         manager.setComplejidad(jcbComplejidad.getSelectedIndex());
     }//GEN-LAST:event_jcbComplejidadMouseClicked
+
+    private void jButtonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCargarActionPerformed
+        // TODO add your handling code here:
+        manager.readTXTFile();
+    }//GEN-LAST:event_jButtonCargarActionPerformed
+
+    private void jPanelSelectCSVUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelSelectCSVUserMouseExited
+        // TODO add your handling code here:
+        jPanelSelectCSVUser.setBackground(item_bottom_exited);
+    }//GEN-LAST:event_jPanelSelectCSVUserMouseExited
+
+    private void jPanelSelectCSVUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelSelectCSVUserMouseEntered
+        // TODO add your handling code here:
+        jPanelSelectCSVUser.setBackground(item_bottom_entered);
+    }//GEN-LAST:event_jPanelSelectCSVUserMouseEntered
+
+    private void jPanelSelectCSVUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelSelectCSVUserMouseClicked
+        // TODO add your handling code here:
+        manager.selectFile();
+    }//GEN-LAST:event_jPanelSelectCSVUserMouseClicked
 
     /**
      * @param args the command line arguments
@@ -282,8 +268,7 @@ public class Index extends javax.swing.JFrame {
     public javax.swing.JLabel jLabelRutaArchivo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    public javax.swing.JPanel jPanelSelectCSVUser;
+    private javax.swing.JPanel jPanelSelectCSVUser;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JComboBox<String> jcbComplejidad;
     // End of variables declaration//GEN-END:variables

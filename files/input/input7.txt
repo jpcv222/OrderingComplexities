@@ -1,0 +1,8 @@
+n = 6;
+m = 8;
+k = 2;
+animales = {gato, libelula, ciempies, nutria, perro, tapir};
+grandezas = {3, 2, 1, 6, 4, 5};
+apertura = {{tapir, nutria, perro}, {tapir, perro, gato}, {ciempies, tapir, gato}, {gato, ciempies, libelula}, {tapir, perro, ciempies}, {tapir, perro, libelula}, {tapir, nutria, gato}, {tapir, nutria, ciempies}, {tapir, nutria, libelula}, {perro, nutria, libelula}};
+parte = {{tapir, nutria, perro}, {tapir, perro, gato}, {ciempies, tapir, gato}, {gato, ciempies, libelula}, {tapir, perro, ciempies}};
+parte = {{tapir, perro, libelula}, {tapir, nutria, gato}, {tapir, nutria, ciempies}, {tapir, nutria, libelula}, {perro, nutria, libelula}};
