@@ -1,0 +1,22 @@
+Complejidad O(n)
+El orden en del espectáculo debe ser:
+Apertura: [(ciempies,libelula,gato),(ciempies,gato,tapir),(gato,perro,tapir),(perro,tapir,nutria)]
+Parte 1: [(ciempies,libelula,gato),(gato,perro,tapir)]
+Parte 2: [(ciempies,gato,tapir),(perro,tapir,nutria)]
+
+El animal que participó en más escenas dentro del espectaculo fue: 
+gato con 3 escenas.
+tapir con 3 escenas.
+
+El animal que menos participo en escenas dentro del espectaculo fue: 
+libelula con 1 escenas.
+nutria con 1 escenas.
+
+La escena de menor grandeza total fue la escena [ ciempies libelula gato ]
+
+La escena de mayor grandeza total fue la escena [ perro tapir nutria ]
+
+El promedio de grandeza de todo el espectaculo fue de 10.5
+
+Tiempo de ejecución en milisegundos: 808100
+Tiempo de ejecución en milisegundos: 174083898115000 - 174083898923100
