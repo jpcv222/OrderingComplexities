@@ -1,0 +1,15 @@
+n = 26;
+m = 10;
+k = 3;
+animales = {q, w, e, r, t, y, u, i, o, p, a, s, d, f, g, h, j, k, l, z, x, c, v, b, n, m};
+grandezas = {26, 1, 25, 2, 24, 3, 22, 4, 21, 5, 20, 6, 19, 7, 18, 8, 17, 9, 16, 10, 15, 11, 14, 12, 13, 23};
+apertura = {{q, w, e}, {r, t, y}, {u, i, o}, {p, a, s}, {d, f, g}, {h, j, k}, {l, z, x}, {c, v, b}, {n, m, q}, {m, q, a}, {n, w, s}, {b, e, d}, {b, r, f}, {v, t, g}, {c, y, h}, {x, u, j}, {z, i, k}, {l, o, p}, {q, a, z}, {w, s, x}, {e, d, c}, {r, f, v}, {t, g, b}, {y, h, n}, {u, j, m}, {i, k, m}, {p, e, t}};
+parte = {{q, w, e}, {r, t, y}, {u, i, o}};
+parte = {{u, i, o}, {p, a, s}, {d, f, g}};
+parte = {{u, j, m}, {i, k, m}, {p, e, t}};
+parte = {{w, s, x}, {e, d, c}, {r, f, v}};
+parte = {{m, q, a}, {n, w, s}, {b, e, d}};
+parte = {{c, v, b}, {n, m, q}, {m, q, a}};
+parte = {{t, g, b}, {y, h, n}, {u, j, m}};
+parte = {{i, k, m}, {u, j, m}, {w, s, x}};
+parte = {{p, a, s}, {e, d, c}, {l, z, x}};
