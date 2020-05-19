@@ -112,7 +112,7 @@ public class manager_index {
     public void cuadraticComplexity() {
         TFin = System.currentTimeMillis(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
         tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
-        System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
+        System.out.println("Tiempo de ejecución en nanosegundos es: " + tiempo);
 
         System.out.println("ENTRE2 O(N2)");
         ordenaPartsInsertion(parts);
