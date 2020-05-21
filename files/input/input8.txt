@@ -1,0 +1,16 @@
+n = 6;
+m = 11;
+k = 2;
+animales = {gato, libelula, ciempies, nutria, perro, tapir};
+grandezas = {6, 5, 4, 3, 2, 1};
+apertura = {{gato, libelula, ciempies}, {gato, libelula, nutria}, {gato, libelula, perro}, {gato, libelula, tapir}, {libelula, ciempies, nutria}, {libelula, ciempies, perro}, {libelula, ciempies, tapir}, {ciempies, nutria, perro}, {ciempies, nutria, tapir}, {nutria, perro, tapir}, {gato, ciempies, nutria}, {gato, ciempies, perro}, {gato, ciempies, tapir}, {gato, nutria, perro}, {gato, nutria, tapir}, {gato, perro, tapir}, {libelula, nutria, perro}, {libelula, nutria, tapir}, {libelula, perro, tapir}, {ciempies, perro, tapir}};
+parte = {{gato, libelula, ciempies}, {gato, libelula, nutria}};
+parte = {{gato, libelula, perro}, {gato, libelula, tapir}};
+parte = {{libelula, ciempies, nutria}, {libelula, ciempies, perro}};
+parte = {{libelula, ciempies, tapir}, {ciempies, nutria, perro}};
+parte = {{ciempies, nutria, tapir}, {nutria, perro, tapir}};
+parte = {{gato, ciempies, nutria}, {gato, ciempies, perro}};
+parte = {{gato, ciempies, tapir}, {gato, nutria, perro}};
+parte = {{gato, nutria, tapir}, {gato, perro, tapir}};
+parte = {{libelula, nutria, perro}, {libelula, nutria, tapir}};
+parte = {{libelula, perro, tapir}, {ciempies, perro, tapir}};
