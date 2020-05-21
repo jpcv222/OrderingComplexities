@@ -62,12 +62,12 @@ public class manager_index {
         long TInicio, TFin, tiempo;
         TInicio = System.nanoTime(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
         
-        results.add("-----El desorden en del espectáculo debe ser:");
+        /*results.add("-----El desorden en del espectáculo debe ser:");
         results.add("Apertura: " + printPart(this.opening.getScenes())); //O(n)        
         for (int i = 0; i < this.parts.length; i++) { //O(n)
             results.add("Parte " + (i + 1) + ": " + printPart(this.parts[i].getScenes()) + " Grandeza: "+ this.parts[i].getOverall_greatness()); //O(n)
         }
-        
+        */
         //Ordenar escenas dentro de apertura
         sortOpening(); //O(n)
 
@@ -153,11 +153,11 @@ public class manager_index {
         int max = 0;
         //Ordenar animales de apertura
         for (int i = 0; i < this.opening.getScenes().length; i++) {
-            sortAnimals(this.opening.getScenes()[i].getAnimales()); // O(k)
+            sortAnimals(this.opening.getScenes()[i].getAnimales()); 
         }
         //Ordenar escenas de apertura
-        max = getMaxOverallGreatnessScenes(this.opening.getScenes()); //O(n)
-        this.opening.setScenes(countingSortScenes(this.opening.getScenes(), max)); //O(n)
+        max = getMaxOverallGreatnessScenes(this.opening.getScenes()); 
+        this.opening.setScenes(countingSortScenes(this.opening.getScenes(), max)); 
     }
 
     public void sortParts() {
@@ -204,10 +204,9 @@ public class manager_index {
         int max;
         //Ordenar m - 1 partes
         System.out.println("entre O(n)");
-        for (int i = 0; i < this.m - 1; i++) { //O(60)
             max = getMaxOverallGreatnessParts(this.parts); //O(n)
             this.parts = countingSortParts(this.parts, max); //O(n)
-        }
+        
     }
 
     public int getMaxOverallGreatnessScenes(Scene[] arr) {
