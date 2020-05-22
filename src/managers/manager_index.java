@@ -61,13 +61,13 @@ public class manager_index {
 
         long TInicio, TFin, tiempo;
         TInicio = System.nanoTime(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
-        
+
         /*results.add("-----El desorden en del espectáculo debe ser:");
         results.add("Apertura: " + printPart(this.opening.getScenes())); //O(n)        
         for (int i = 0; i < this.parts.length; i++) { //O(n)
             results.add("Parte " + (i + 1) + ": " + printPart(this.parts[i].getScenes()) + " Grandeza: "+ this.parts[i].getOverall_greatness()); //O(n)
-        }
-        */
+        }*/
+         
         //Ordenar escenas dentro de apertura
         sortOpening(); //O(n)
 
@@ -113,7 +113,7 @@ public class manager_index {
         results.add(promedioGrandeza(opening)); //O(n)
         TFin = System.nanoTime(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
         tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
-        results.add("Tiempo de ejecución en milisegundos: " + tiempo);
+        results.add("Tiempo de ejecución en nanosegundos: " + tiempo);
         printResults();
 
     }
@@ -124,6 +124,38 @@ public class manager_index {
         ordenaPartsInsertion(parts);
         //ordenaPartsInsertion2(this.parts);
 
+    }
+
+    public void crearInput() {
+        int n = 9;
+        int m = 21;
+        int k = 10;
+
+        ArrayList<String> salida = new ArrayList<>();
+        String[] animals = new String[n];
+        int [] grandeza = new int[n];
+        String [] apertura = new String[(m-1)*k];
+        String [][] partes =  new String[m-1][k];
+        
+        char letra = 'a';
+        String aux;
+
+        for (int i = 0; i < animals.length; i++) {
+            aux = "";
+            for (int j = 0; j < i; j++) {
+                aux += letra;
+            }
+            animals[i] = aux;
+            grandeza[i] = i+1;
+        }
+        
+        salida.add(animals.toString());
+        salida.add(grandeza.toString());
+        
+        for (int i = 0; i < 10; i++) {
+            
+        }
+        
     }
 
     public String printPart(Scene[] arr) {
@@ -153,11 +185,11 @@ public class manager_index {
         int max = 0;
         //Ordenar animales de apertura
         for (int i = 0; i < this.opening.getScenes().length; i++) {
-            sortAnimals(this.opening.getScenes()[i].getAnimales()); 
+            sortAnimals(this.opening.getScenes()[i].getAnimales());
         }
         //Ordenar escenas de apertura
-        max = getMaxOverallGreatnessScenes(this.opening.getScenes()); 
-        this.opening.setScenes(countingSortScenes(this.opening.getScenes(), max)); 
+        max = getMaxOverallGreatnessScenes(this.opening.getScenes());
+        this.opening.setScenes(countingSortScenes(this.opening.getScenes(), max));
     }
 
     public void sortParts() {
@@ -199,56 +231,57 @@ public class manager_index {
         int n = parts.length;
         sortParts(parts, 0, n - 1);
     }
-    
-    public void radixsort() 
-    { 
+
+    public void radixsort() {
         // Find the maximum number to know number of digits 
-        int m = getMaxOverallGreatnessParts(this.parts); 
-  
+        int m = getMaxOverallGreatnessParts(this.parts);
+
         // Do counting sort for every digit. Note that instead 
         // of passing digit number, exp is passed. exp is 10^i 
         // where i is current digit number 
-        for (int exp = 1; m/exp > 0; exp *= 10) 
-            countSort(this.parts, this.m - 1, exp); 
-    } 
-    
-    public void countSort(Part arr[], int n, int exp) 
-    { 
+        for (int exp = 1; m / exp > 0; exp *= 10) {
+            countSort(this.parts, this.m - 1, exp);
+        }
+    }
+
+    public void countSort(Part arr[], int n, int exp) {
         Part output[] = new Part[n]; // output array 
-        int i; 
-        int count[] = new int[10]; 
-        Arrays.fill(count,0); 
-  
+        int i;
+        int count[] = new int[10];
+        Arrays.fill(count, 0);
+
         // Store count of occurrences in count[] 
-        for (i = 0; i < n; i++) 
-            count[ (arr[i].getOverall_greatness()/exp)%10 ]++; 
-  
+        for (i = 0; i < n; i++) {
+            count[(arr[i].getOverall_greatness() / exp) % 10]++;
+        }
+
         // Change count[i] so that count[i] now contains 
         // actual position of this digit in output[] 
-        for (i = 1; i < 10; i++) 
-            count[i] += count[i - 1]; 
-  
+        for (i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+
         // Build the output array 
-        for (i = n - 1; i >= 0; i--) 
-        { 
-            output[count[ (arr[i].getOverall_greatness()/exp)%10 ] - 1] = arr[i]; 
-            count[ (arr[i].getOverall_greatness()/exp)%10 ]--; 
-        } 
-  
+        for (i = n - 1; i >= 0; i--) {
+            output[count[(arr[i].getOverall_greatness() / exp) % 10] - 1] = arr[i];
+            count[(arr[i].getOverall_greatness() / exp) % 10]--;
+        }
+
         // Copy the output array to arr[], so that arr[] now 
         // contains sorted numbers according to curent digit 
-        for (i = 0; i < n; i++) 
-            arr[i] = output[i]; 
-    } 
+        for (i = 0; i < n; i++) {
+            arr[i] = output[i];
+        }
+    }
 
     public void linearComplexity() {
         int max;
         //Ordenar m - 1 partes
         System.out.println("entre O(n)");
-            max = getMaxOverallGreatnessParts(this.parts); //O(n)
-            //this.parts = countingSortParts(this.parts, max); //O(n)
-            radixsort();
-        
+        max = getMaxOverallGreatnessParts(this.parts); //O(n)
+        //this.parts = countingSortParts(this.parts, max); //O(n)
+        radixsort();
+
     }
 
     public int getMaxOverallGreatnessScenes(Scene[] arr) {
